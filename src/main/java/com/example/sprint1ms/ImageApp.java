@@ -4,6 +4,8 @@ package com.example.sprint1ms;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -60,12 +62,25 @@ public class ImageApp extends Application {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("About");
             alert.setHeaderText("Image Editor");
-            alert.setContentText("A simple JavaFX paint-like editor.\nBuilt with JavaFX.");
+            alert.setContentText("A simple paint-like editor.\nA way to espresso yourself.\nBuilt with JavaFX.");
+            alert.showAndWait();
+        });
+        helpItem.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Help");
+            alert.setHeaderText("Help with this Image Editor");
+            alert.setContentText("The file menu allows you to open and save images.\nAt the bottom of the screen there are drawing tools to chose from." +
+                    "\nThere is also a dashed check-box to make your objects dashed if selected.");
             alert.showAndWait();
         });
 
 
         Scene scene = new Scene(root, 1000, 700);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.isControlDown()){
+                if (e.getCode() == KeyCode.S) fileManager.saveImage(false, easel1);
+            }
+        });
         primaryStage.setTitle("Image Editor");
         primaryStage.setScene(scene);
         primaryStage.show();

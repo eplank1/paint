@@ -16,7 +16,7 @@ public class ToolBarManager {
     protected boolean dashed;
 
     protected enum Tool {
-        PENCIL, LINE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER
     }
 
     public ToolBarManager() {
@@ -38,15 +38,16 @@ public class ToolBarManager {
         ToggleButton pencilBtn = makeToolButton("Pencil", Tool.PENCIL, group, true);
         ToggleButton lineBtn = makeToolButton("Line", Tool.LINE, group, false);
         ToggleButton rectBtn = makeToolButton("Rect", Tool.RECT, group, false);
+        ToggleButton squareBtn = makeToolButton("Square",Tool.SQUARE, group, false);
         ToggleButton circleBtn = makeToolButton("Circle", Tool.CIRCLE, group, false);
-        ToggleButton ellipseBtn = makeToolButton("Ellipse", Tool.ELLIPSE, group, false);
+        ToggleButton ellipseBtn = makeToolButton("Oval", Tool.ELLIPSE, group, false);
         ToggleButton triangleBtn = makeToolButton("Triangle", Tool.TRIANGLE, group, false);
         ToggleButton hexBtn = makeToolButton("Hex", Tool.HEX, group, false);
         ToggleButton eraserBtn = makeToolButton("Eraser", Tool.ERASER, group, false);
-        ToggleButton dropperBtn = makeToolButton("Eyedropper", Tool.EYEDROPPER, group, false);
+        ToggleButton dropperBtn = makeToolButton("Dropper", Tool.EYEDROPPER, group, false);
 
         return new ToolBar(
-                pencilBtn, lineBtn, rectBtn, circleBtn, ellipseBtn,
+                pencilBtn, lineBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
                 triangleBtn, hexBtn, eraserBtn, dropperBtn
         );
     }

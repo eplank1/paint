@@ -19,6 +19,8 @@ public class Easel {
         // Drawing with mouse
         canvas = new Canvas(1000,800);
         gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.WHITE);
+        gc.fillRect(0,0,1000,800);
 
 
         canvas.setOnMousePressed(e -> {
@@ -29,6 +31,7 @@ public class Easel {
                 PixelReader reader = snap.getPixelReader();
                 if (reader != null) {
                     toolbar.currentColor = reader.getColor((int) lastX, (int) lastY);
+                    toolbar.colorPicker.setValue(toolbar.currentColor);
                 }//Grabs color from PixelReader at X and Y position.
             }//If statement to handle the eyedropper tool
         });
@@ -47,6 +50,7 @@ public class Easel {
             switch (toolbar.currentTool) {
                 case LINE -> drawLine(toolbar, lastX, lastY, e.getX(), e.getY());
                 case RECT -> drawRect(toolbar, lastX, lastY, e.getX(), e.getY());
+                case SQUARE -> drawSquare(toolbar, lastX, lastY, e.getX(), e.getY());
                 case CIRCLE -> drawCircle(toolbar, lastX, lastY, e.getX(), e.getY());
                 case ELLIPSE -> drawEllipse(toolbar, lastX, lastY, e.getX(), e.getY());
                 case TRIANGLE -> drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
@@ -63,23 +67,28 @@ public class Easel {
     private void drawLine(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         gc.strokeLine(x1,y1,x2,y2);
+        isDirty = true;
     }
     private void drawRect(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         gc.strokeRect(Math.min(x1, x2),Math.min(y1,y2),Math.abs(x2-x1),Math.abs(y1-y2));
+        isDirty = true;
     }
     private void drawCircle(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         Double r = Math.max(Math.abs(x2-x1), Math.abs(y2-y1));
         gc.strokeOval(Math.min(x1,x2),Math.min(y1,y2),r, r);
+        isDirty = true;
     }
     private void drawEllipse(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         gc.strokeOval(Math.min(x1,x2),Math.min(y1,y2),Math.abs(x2-x1),Math.abs(y2-y1));
+        isDirty = true;
     }
     private void drawTriangle(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         gc.strokePolygon(new double[]{x1,x2,(x1+x2)/2},new double[]{y2,y2,y1},3);
+        isDirty = true;
     }
     private void drawHex(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
@@ -93,5 +102,12 @@ public class Easel {
             ypoints[i] = centerY+r * Math.sin(Math.PI/3*i);
         }
         gc.strokePolygon(xpoints,ypoints,6);
+        isDirty = true;
+    }
+    private void drawSquare(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
+        applyStrokeStyle(toolbar);
+        double sidelength = Math.max(Math.abs(x2-x1),Math.abs(y2-y1));
+        gc.strokeRect(Math.min(x1,x2),Math.min(y1,y2),sidelength, sidelength);
+        isDirty = true;
     }
 }

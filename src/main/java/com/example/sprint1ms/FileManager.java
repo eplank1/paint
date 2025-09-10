@@ -28,7 +28,10 @@ public class FileManager {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             Image image = new Image(file.toURI().toString());
-            easel.gc.drawImage(image, 0, 0);
+            easel.canvas.setHeight(image.getHeight());
+            easel.canvas.setWidth(image.getWidth());
+            easel.gc = easel.canvas.getGraphicsContext2D();
+            easel.gc.drawImage(image, 0,0);
             easel.currentFile = file;
             easel.isDirty = false;
         }

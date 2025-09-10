@@ -13,6 +13,7 @@ public class ToolBarManager {
     protected Slider lineWidthSlider = new Slider(1, 20, 2);
     protected HBox toolBar;
     protected Tool currentTool;
+    protected boolean dashed;
 
     protected enum Tool {
         PENCIL, LINE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER
@@ -27,10 +28,12 @@ public class ToolBarManager {
         lineWidthSlider.setShowTickMarks(true);
         colorPicker.setOnAction(e -> currentColor = colorPicker.getValue());
         lineWidthSlider.valueProperty().addListener((obs, oldVal, newVal) -> lineWidth = newVal.doubleValue());
-        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar());
+        CheckBox dashedBox = new CheckBox("Dashed");
+        dashedBox.setOnAction(e -> dashed = dashedBox.isSelected());
+        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox);//Adding tools to toolbar
     }
     private ToolBar buildToolBar() {
-        ToggleGroup group = new ToggleGroup();
+        ToggleGroup group = new ToggleGroup();//Adding buttons to a toggle group makes one button activatable at a time
 
         ToggleButton pencilBtn = makeToolButton("Pencil", Tool.PENCIL, group, true);
         ToggleButton lineBtn = makeToolButton("Line", Tool.LINE, group, false);

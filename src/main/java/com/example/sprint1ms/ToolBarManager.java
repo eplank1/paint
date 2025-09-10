@@ -4,7 +4,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-
+/*
+* The ToolBarManager class is used to contain all the toolbar functions and variables in once place.
+* Properties within the ToolBarManager class are passed to the easel for drawing.
+ */
 public class ToolBarManager {
 
     protected Color currentColor;
@@ -18,7 +21,9 @@ public class ToolBarManager {
     protected enum Tool {
         PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER
     }
-
+    /*
+    * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
+     */
     public ToolBarManager() {
         currentColor = Color.BLACK;
         lineWidth = 2.0;
@@ -32,6 +37,10 @@ public class ToolBarManager {
         dashedBox.setOnAction(e -> dashed = dashedBox.isSelected());
         toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox);//Adding tools to toolbar
     }
+    /*
+    * Creates a Toolbar with drawing tool buttons attached.
+    * @return  the Toolbar created by the buildToolBar() function.
+     */
     private ToolBar buildToolBar() {
         ToggleGroup group = new ToggleGroup();//Adding buttons to a toggle group makes one button activatable at a time
 
@@ -51,7 +60,13 @@ public class ToolBarManager {
                 triangleBtn, hexBtn, eraserBtn, dropperBtn
         );
     }
-
+    /*
+    * Creates a ToggleButton using a button name, tool from the toolbar, toggle-group and a boolean.
+    * @param text      The text string applied to the button.
+    * @param tool      The tool that the button affects/activates.
+    * @param group     The toggle group that the button must be applied to
+    * @param selected  Boolean to distinguish whether the button is currently selected or not.
+     */
     private ToggleButton makeToolButton(String text, Tool tool, ToggleGroup group, boolean selected) {
         ToggleButton btn = new ToggleButton(text);
         btn.setToggleGroup(group);

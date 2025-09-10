@@ -40,7 +40,6 @@ public class ImageApp extends Application {
         // Scrollable image + canvas
         ScrollPane scrollPane = new ScrollPane();
         BorderPane imagePane = new BorderPane();
-        //imagePane.getChildren().add(easel1.canvas);
         imagePane.setCenter(easel1.canvas);
         scrollPane.setContent(imagePane);
 

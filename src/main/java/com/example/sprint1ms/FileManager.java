@@ -12,14 +12,24 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+/*
+* The FileManager Class is used as an intermediary between the stage and the easel.
+ */
 public class FileManager {
-
+    /*
+    * The default constructor for FileManger, used to initialize before using FileManager functions.
+     */
     public FileManager() {
 
 
     }
-
+    /*
+    * The openImage function is used to show a file selection dialogue to stage and to
+    * draw the image from said file onto the easel's canvas.
+    *
+    * @param stage The stage class is used to open a new tab for file selection.
+    * @param easel The easel class is used to draw an image from a file onto the canvas.
+     */
     public void openImage(Stage stage, Easel easel) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
@@ -36,7 +46,15 @@ public class FileManager {
             easel.isDirty = false;
         }
     }
-
+    /*
+    * The saveImage function is used to select (or create) a file to save to
+    * and write the canvas to said file.
+    *
+    * @param saveAs The boolean is used to determine whether to save to a preselected
+    *               location or to open a saveAs dialogue window.
+    * @param easel  The easel is used to create a snapshot of the canvas and write it
+    *               to the selected file.
+     */
     protected void saveImage(boolean saveAs, Easel easel) {
         if (!easel.isDirty) return;
 
@@ -73,7 +91,12 @@ public class FileManager {
             ex.printStackTrace();
         }
     }
-
+    /*
+    * The confirmUnsaved function is used to get confirmation from
+    * the user if they want to close the program with unsaved changes.
+    *
+    * @param easel Used to retrieve isDirty flag from the easel.
+     */
     protected boolean confirmUnsaved(Easel easel) {
         if (!easel.isDirty) return true;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,

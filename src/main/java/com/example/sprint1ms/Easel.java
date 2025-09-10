@@ -7,14 +7,21 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import java.io.File;
-
+/*
+* The Easel class is used to hold all drawing related functions and properties such as the canvas and graphics context.
+ */
 public class Easel {
     protected Canvas canvas;
     protected GraphicsContext gc;
     protected double lastX, lastY;
     protected boolean isDirty;
     protected File currentFile = null;
-
+    /*
+    * The default constructor for the easel. Creates the canvas and mouse handler events
+    *
+    * @param toolbar  A ToolBarManager object that is used to check which tool is being used and to
+    *                 apply drawing settings to shapes and lines.
+     */
     public Easel(ToolBarManager toolbar) {
         // Drawing with mouse
         canvas = new Canvas(1000,800);
@@ -58,12 +65,18 @@ public class Easel {
             }
         });
     }
+    /*
+    *Applies drawing settings that are set in the toolbar, such as the pen's color, width, and whether the line is dashed.
+    *
+    * @param toolbar  ToolBarManager object that contains necessary data for modifying shapes / drawings.
+     */
     private void applyStrokeStyle(ToolBarManager toolBar) {
         gc.setLineWidth(toolBar.lineWidth);
         gc.setStroke(toolBar.currentColor);
         if (toolBar.dashed) gc.setLineDashes(10);
         else gc.setLineDashes(0);
     }
+    // -- Shape Drawing Functions --
     private void drawLine(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         gc.strokeLine(x1,y1,x2,y2);

@@ -14,9 +14,16 @@ import java.io.IOException;
 
 public class MenuManager {
     protected MenuBar menuBar;
+    protected TabManager tabManager;
+    protected Stage stage;
+    protected ToolBarManager toolBarManager;
 
-    public MenuManager(TabManager tabManager, Stage primaryStage, ToolBarManager toolBarHelper) {
+    public MenuManager(TabManager tabs, Stage primaryStage, ToolBarManager toolBarHelper) {
         // File Menu
+        tabManager = tabs;
+        stage = primaryStage;
+        toolBarManager = toolBarHelper;
+
         menuBar = new MenuBar();
         Menu fileMenu = new Menu("File");
         MenuItem newTab = new MenuItem("New Tab");
@@ -31,10 +38,10 @@ public class MenuManager {
         MenuItem aboutItem = new MenuItem("About");
         helpMenu.getItems().addAll(helpItem, aboutItem);
         menuBar.getMenus().addAll(fileMenu, helpMenu);
-        newTab.setOnAction(e -> tabManager.addNewTab(toolBarHelper,"Untitled"));
-        openItem.setOnAction(e -> openImage(primaryStage, tabManager.currentEasel));
-        saveItem.setOnAction(e -> saveImage(false, tabManager.currentEasel));
-        saveAsItem.setOnAction(e -> saveImage(true, tabManager.currentEasel));
+        newTab.setOnAction(e -> tabManager.addNewTab("Untitled"));
+        openItem.setOnAction(e -> openImage());
+        saveItem.setOnAction(e -> saveImage(false));
+        saveAsItem.setOnAction(e -> saveImage(true));
         exitItem.setOnAction(e -> {
             if (confirmUnsaved(tabManager.currentEasel)) primaryStage.close();
         });
@@ -63,7 +70,7 @@ public class MenuManager {
      * @param stage The stage class is used to open a new tab for file selection.
      * @param easel The easel class is used to draw an image from a file onto the canvas.
      */
-    public static void openImage(Stage stage, Easel easel) {
+    public void openImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp")
@@ -71,6 +78,7 @@ public class MenuManager {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             Image image = new Image(file.toURI().toString());
+            Easel easel = tabManager.addNewTab(file.getName());
             easel.canvas.setHeight(image.getHeight());
             easel.canvas.setWidth(image.getWidth());
             easel.gc = easel.canvas.getGraphicsContext2D();
@@ -88,7 +96,8 @@ public class MenuManager {
      * @param easel  The easel is used to create a snapshot of the canvas and write it
      *               to the selected file.
      */
-    protected static void saveImage(boolean saveAs, Easel easel) {
+    protected void saveImage(boolean saveAs) {
+        Easel easel = tabManager.currentEasel;
         if (!easel.isDirty) return;
 
         File file = easel.currentFile;
@@ -130,7 +139,7 @@ public class MenuManager {
      *
      * @param easel Used to retrieve isDirty flag from the easel.
      */
-    protected static boolean confirmUnsaved(Easel easel) {
+    protected boolean confirmUnsaved(Easel easel) {
         if (!easel.isDirty) return true;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 "You have unsaved changes. Do you want to exit?",

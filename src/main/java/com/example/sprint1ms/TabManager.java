@@ -8,25 +8,23 @@ import javafx.scene.layout.BorderPane;
 public class TabManager {
     protected TabPane tabPane;
     protected Easel currentEasel;
+    protected ToolBarManager toolBarManager;
 
     public TabManager(ToolBarManager toolbar) {
         tabPane = new TabPane();
-        currentEasel = addNewTab(toolbar, "Untitled1");
+        toolBarManager = toolbar;
+        currentEasel = addNewTab( "Untitled1");
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, selectedTab) -> {
             if (selectedTab != null) {
-                System.out.println("Switched to tab: " + selectedTab.getText());
                 currentEasel = (Easel) selectedTab.getUserData();
-            }
-            if (oldTab != null) {
-                System.out.println("Left tab: " + oldTab.getText());
             }
         });
 
     }
 
-    protected Easel addNewTab(ToolBarManager toolbar, String title) {
-        Easel easel = new Easel(toolbar);
+    protected Easel addNewTab(String title) {
+        Easel easel = new Easel(toolBarManager);
         // Scrollable image + canvas
         ScrollPane scrollPane = new ScrollPane();
         BorderPane imagePane = new BorderPane();

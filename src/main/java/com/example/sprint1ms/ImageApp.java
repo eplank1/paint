@@ -26,7 +26,7 @@ public class ImageApp extends Application {
         Scene scene = new Scene(root, 1000, 700);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.isControlDown()){
-                if (e.getCode() == KeyCode.S) MenuManager.saveImage(false, tabManager.currentEasel);
+                if (e.getCode() == KeyCode.S) menuManager.saveImage(false);
             }
         });
         primaryStage.setTitle("Image Editor");

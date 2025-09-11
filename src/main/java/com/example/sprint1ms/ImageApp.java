@@ -15,10 +15,9 @@ public class ImageApp extends Application {
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
 
-        FileManager fileManager = new FileManager();
         ToolBarManager toolBarHelper = new ToolBarManager();
         TabManager tabManager = new TabManager(toolBarHelper);
-        MenuManager menuManager = new MenuManager(fileManager, tabManager, primaryStage, toolBarHelper);
+        MenuManager menuManager = new MenuManager(tabManager, primaryStage, toolBarHelper);
 
         root.setTop(menuManager.menuBar);
         root.setBottom(toolBarHelper.toolBar);
@@ -27,7 +26,7 @@ public class ImageApp extends Application {
         Scene scene = new Scene(root, 1000, 700);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.isControlDown()){
-                if (e.getCode() == KeyCode.S) fileManager.saveImage(false, tabManager.currentEasel);
+                if (e.getCode() == KeyCode.S) MenuManager.saveImage(false, tabManager.currentEasel);
             }
         });
         primaryStage.setTitle("Image Editor");

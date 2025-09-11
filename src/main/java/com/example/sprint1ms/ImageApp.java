@@ -1,6 +1,5 @@
 package com.example.sprint1ms;
 
-
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,6 +11,8 @@ import javafx.stage.Stage;
 
 public class ImageApp extends Application {
 
+    Easel currentEasel;
+
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
@@ -21,11 +22,12 @@ public class ImageApp extends Application {
 
         // File menu
         Menu fileMenu = new Menu("File");
+        MenuItem newTab = new MenuItem("New Tab");
         MenuItem openItem = new MenuItem("Open...");
         MenuItem saveItem = new MenuItem("Save");
         MenuItem saveAsItem = new MenuItem("Save As...");
         MenuItem exitItem = new MenuItem("Exit");
-        fileMenu.getItems().addAll(openItem, saveItem, saveAsItem, new SeparatorMenuItem(), exitItem);
+        fileMenu.getItems().addAll(openItem, newTab, saveItem, saveAsItem, new SeparatorMenuItem(), exitItem);
         ToolBarManager toolBarHelper = new ToolBarManager();
 
         // Help menu
@@ -33,28 +35,24 @@ public class ImageApp extends Application {
         MenuItem helpItem = new MenuItem("Help");
         MenuItem aboutItem = new MenuItem("About");
         helpMenu.getItems().addAll(helpItem, aboutItem);
-
         menuBar.getMenus().addAll(fileMenu, helpMenu);
-        Easel easel1 = new Easel(toolBarHelper);
 
-        // Scrollable image + canvas
-        ScrollPane scrollPane = new ScrollPane();
-        BorderPane imagePane = new BorderPane();
-        imagePane.setCenter(easel1.canvas);
-        scrollPane.setContent(imagePane);
+        TabManager tabManager = new TabManager(toolBarHelper);
+        currentEasel = tabManager.currentEasel;
 
         root.setTop(menuBar);
         root.setBottom(toolBarHelper.toolBar);
-        root.setCenter(scrollPane);
+        root.setCenter(tabManager.tabPane);
 
         FileManager fileManager = new FileManager();
 
         // --- Event handlers ---
-        openItem.setOnAction(e -> fileManager.openImage(primaryStage, easel1));
-        saveItem.setOnAction(e -> fileManager.saveImage(false, easel1));
-        saveAsItem.setOnAction(e -> fileManager.saveImage(true, easel1));
+        newTab.setOnAction(e -> tabManager.addNewTab(toolBarHelper,"Untitled"));
+        openItem.setOnAction(e -> fileManager.openImage(primaryStage, currentEasel));
+        saveItem.setOnAction(e -> fileManager.saveImage(false, currentEasel));
+        saveAsItem.setOnAction(e -> fileManager.saveImage(true, currentEasel));
         exitItem.setOnAction(e -> {
-            if (fileManager.confirmUnsaved(easel1)) primaryStage.close();
+            if (fileManager.confirmUnsaved(currentEasel)) primaryStage.close();
         });
 
         aboutItem.setOnAction(e -> {
@@ -77,12 +75,11 @@ public class ImageApp extends Application {
         Scene scene = new Scene(root, 1000, 700);
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.isControlDown()){
-                if (e.getCode() == KeyCode.S) fileManager.saveImage(false, easel1);
+                if (e.getCode() == KeyCode.S) fileManager.saveImage(false, currentEasel);
             }
         });
         primaryStage.setTitle("Image Editor");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
 }

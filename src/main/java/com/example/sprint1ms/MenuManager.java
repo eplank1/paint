@@ -12,12 +12,24 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/*
+* The MenuManager class is used to create the menuBar that will give the user file options
+ */
 public class MenuManager {
     protected MenuBar menuBar;
     protected TabManager tabManager;
     protected Stage stage;
     protected ToolBarManager toolBarManager;
 
+    /*
+    * The default constructor for the MenuManager, creates the menubar and
+    * adds event handlers to the buttons on the menu bar. A TabManager, Stage,
+    * and ToolBarManager must be passed to add functionality to buttons.
+    *
+    * @param tabs          The TabManager is passed to MenuManager's property by reference
+    * @param primaryStage  The Stage is passed to MenuManager's property by reference
+    * @param toolBarHelper The ToolBarManager is passed to MenuManager's property by reference
+     */
     public MenuManager(TabManager tabs, Stage primaryStage, ToolBarManager toolBarHelper) {
         // File Menu
         tabManager = tabs;
@@ -65,10 +77,8 @@ public class MenuManager {
 
     /*
      * The openImage function is used to show a file selection dialogue to stage and to
-     * draw the image from said file onto the easel's canvas.
+     * draw the image from said file onto the easel's canvas on a new tab named after the file.
      *
-     * @param stage The stage class is used to open a new tab for file selection.
-     * @param easel The easel class is used to draw an image from a file onto the canvas.
      */
     public void openImage() {
         FileChooser fileChooser = new FileChooser();
@@ -93,8 +103,6 @@ public class MenuManager {
      *
      * @param saveAs The boolean is used to determine whether to save to a preselected
      *               location or to open a saveAs dialogue window.
-     * @param easel  The easel is used to create a snapshot of the canvas and write it
-     *               to the selected file.
      */
     protected void saveImage(boolean saveAs) {
         Easel easel = tabManager.currentEasel;

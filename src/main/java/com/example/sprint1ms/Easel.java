@@ -62,6 +62,8 @@ public class Easel {
                 case ELLIPSE -> drawEllipse(toolbar, lastX, lastY, e.getX(), e.getY());
                 case TRIANGLE -> drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                 case HEX -> drawHex(toolbar, lastX, lastY, e.getX(), e.getY());
+                case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
             }
         });
     }
@@ -117,10 +119,29 @@ public class Easel {
         gc.strokePolygon(xpoints,ypoints,6);
         isDirty = true;
     }
+    private void drawOct(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
+        applyStrokeStyle(toolbar);
+        double centerX = (x1+x2)/2;
+        double centerY = (y1+y2)/2;
+        double r = Math.max(Math.abs(x2-x1), Math.abs(y2-y1))/2;
+        double[] xpoints = new double[8];
+        double[] ypoints = new double[8];
+        for (int i=0; i<8; i++) {
+            xpoints[i] = centerX+r * Math.cos(Math.PI /4*i);
+            ypoints[i] = centerY+r * Math.sin(Math.PI/4*i);
+        }
+        gc.strokePolygon(xpoints,ypoints,8);
+        isDirty = true;
+    }
     private void drawSquare(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         double sidelength = Math.max(Math.abs(x2-x1),Math.abs(y2-y1));
         gc.strokeRect(Math.min(x1,x2),Math.min(y1,y2),sidelength, sidelength);
+        isDirty = true;
+    }
+    private void drawRTriangle(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
+        applyStrokeStyle(toolbar);
+        gc.strokePolygon(new double[]{x1,x2,x1},new double[]{y1,y1,y2},3);
         isDirty = true;
     }
 }

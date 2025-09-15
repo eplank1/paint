@@ -19,7 +19,7 @@ public class ToolBarManager {
     protected boolean dashed;
 
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT
     }
     /*
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
@@ -51,13 +51,15 @@ public class ToolBarManager {
         ToggleButton circleBtn = makeToolButton("Circle", Tool.CIRCLE, group, false);
         ToggleButton ellipseBtn = makeToolButton("Oval", Tool.ELLIPSE, group, false);
         ToggleButton triangleBtn = makeToolButton("Triangle", Tool.TRIANGLE, group, false);
+        ToggleButton rtriangleBtn = makeToolButton("R-Triangle", Tool.RTRIANGLE, group, false);
         ToggleButton hexBtn = makeToolButton("Hex", Tool.HEX, group, false);
+        ToggleButton octBtn = makeToolButton("Oct", Tool.OCT, group, false);
         ToggleButton eraserBtn = makeToolButton("Eraser", Tool.ERASER, group, false);
         ToggleButton dropperBtn = makeToolButton("Dropper", Tool.EYEDROPPER, group, false);
 
         return new ToolBar(
                 pencilBtn, lineBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
-                triangleBtn, hexBtn, eraserBtn, dropperBtn
+                triangleBtn, rtriangleBtn, hexBtn, octBtn, eraserBtn, dropperBtn
         );
     }
     /*

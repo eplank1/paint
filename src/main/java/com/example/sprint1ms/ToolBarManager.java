@@ -17,9 +17,10 @@ public class ToolBarManager {
     protected HBox toolBar;
     protected Tool currentTool;
     protected boolean dashed;
+    protected int sides;
 
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON
     }
     /*
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
@@ -35,7 +36,16 @@ public class ToolBarManager {
         lineWidthSlider.valueProperty().addListener((obs, oldVal, newVal) -> lineWidth = newVal.doubleValue());
         CheckBox dashedBox = new CheckBox("Dashed");
         dashedBox.setOnAction(e -> dashed = dashedBox.isSelected());
-        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox);//Adding tools to toolbar
+        TextField polygonSides = new TextField("Polygon Sides");
+        polygonSides.setPrefWidth(50);
+        polygonSides.textProperty().addListener((obs, oldVal, newVal) -> {
+            try{
+                if (Integer.parseInt(newVal) >= 3) {
+                    sides = Integer.parseInt(newVal);
+                }
+            }catch(NumberFormatException e){}//Do nothing if exception is caught (text still in field)
+        });
+        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, polygonSides);//Adding tools to toolbar
     }
     /*
     * Creates a Toolbar with drawing tool buttons attached.
@@ -56,10 +66,11 @@ public class ToolBarManager {
         ToggleButton octBtn = makeToolButton("Oct", Tool.OCT, group, false);
         ToggleButton eraserBtn = makeToolButton("Eraser", Tool.ERASER, group, false);
         ToggleButton dropperBtn = makeToolButton("Dropper", Tool.EYEDROPPER, group, false);
+        ToggleButton polygonBtn = makeToolButton("Polygon", Tool.POLYGON, group, false);
 
         return new ToolBar(
                 pencilBtn, lineBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
-                triangleBtn, rtriangleBtn, hexBtn, octBtn, eraserBtn, dropperBtn
+                triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, eraserBtn, dropperBtn
         );
     }
     /*

@@ -64,6 +64,7 @@ public class Easel {
                 case HEX -> drawHex(toolbar, lastX, lastY, e.getX(), e.getY());
                 case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                 case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
+                case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
             }
         });
     }
@@ -131,6 +132,21 @@ public class Easel {
             ypoints[i] = centerY+r * Math.sin(Math.PI/4*i);
         }
         gc.strokePolygon(xpoints,ypoints,8);
+        isDirty = true;
+    }
+    private void drawPolygon(ToolBarManager toolbar, double x1, double y1, double x2, double y2, int sides) {
+        applyStrokeStyle(toolbar);
+        double centerX = (x1+x2)/2;
+        double centerY = (y1+y2)/2;
+        double r = Math.max(Math.abs(x2-x1), Math.abs(y2-y1))/2;
+        double[] xpoints = new double[sides];
+        double[] ypoints = new double[sides];
+        double angleStep = 2*Math.PI/sides;
+        for (int i=0; i<sides; i++) {
+            xpoints[i] = centerX+r * Math.cos(angleStep*i);
+            ypoints[i] = centerY+r * Math.sin(angleStep*i);
+        }
+        gc.strokePolygon(xpoints,ypoints,sides);
         isDirty = true;
     }
     private void drawSquare(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {

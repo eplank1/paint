@@ -18,9 +18,10 @@ public class ToolBarManager {
     protected Tool currentTool;
     protected boolean dashed;
     protected int sides;
+    protected TextField text;
 
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT
     }
     /*
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
@@ -36,7 +37,7 @@ public class ToolBarManager {
         lineWidthSlider.valueProperty().addListener((obs, oldVal, newVal) -> lineWidth = newVal.doubleValue());
         CheckBox dashedBox = new CheckBox("Dashed");
         dashedBox.setOnAction(e -> dashed = dashedBox.isSelected());
-        TextField polygonSides = new TextField("Polygon Sides");
+        TextField polygonSides = new TextField("");
         polygonSides.setPrefWidth(50);
         polygonSides.textProperty().addListener((obs, oldVal, newVal) -> {
             try{
@@ -45,7 +46,9 @@ public class ToolBarManager {
                 }
             }catch(NumberFormatException e){}//Do nothing if exception is caught (text still in field)
         });
-        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, polygonSides);//Adding tools to toolbar
+        text =  new TextField("Text Here");
+        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, new Label ("Polygon Sides:"), polygonSides,
+        new Label ("Text:"), text);//Adding tools to toolbar
     }
     /*
     * Creates a Toolbar with drawing tool buttons attached.
@@ -56,6 +59,7 @@ public class ToolBarManager {
 
         ToggleButton pencilBtn = makeToolButton("Pencil", Tool.PENCIL, group, true);
         ToggleButton lineBtn = makeToolButton("Line", Tool.LINE, group, false);
+        ToggleButton textBtn = makeToolButton("Text", Tool.TEXT, group, false);
         ToggleButton rectBtn = makeToolButton("Rect", Tool.RECT, group, false);
         ToggleButton squareBtn = makeToolButton("Square",Tool.SQUARE, group, false);
         ToggleButton circleBtn = makeToolButton("Circle", Tool.CIRCLE, group, false);
@@ -69,7 +73,7 @@ public class ToolBarManager {
         ToggleButton polygonBtn = makeToolButton("Polygon", Tool.POLYGON, group, false);
 
         return new ToolBar(
-                pencilBtn, lineBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
+                pencilBtn, lineBtn, textBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
                 triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, eraserBtn, dropperBtn
         );
     }

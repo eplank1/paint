@@ -16,6 +16,7 @@ public class Easel {
     protected double lastX, lastY;
     protected boolean isDirty;
     protected File currentFile = null;
+    protected WritableImage canvasSnapshot;//used for live drawing functionality
     /*
     * The default constructor for the easel. Creates the canvas and mouse handler events
     *
@@ -28,19 +29,24 @@ public class Easel {
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.WHITE);
         gc.fillRect(0,0,1000,800);
+        gc.setFill(Color.BLACK);//setting fill color back to black so text appears on canvas
 
 
         canvas.setOnMousePressed(e -> {
             lastX = e.getX();
             lastY = e.getY();
-            if (toolbar.currentTool == ToolBarManager.Tool.EYEDROPPER) {
-                WritableImage snap = canvas.snapshot(null, null);
-                PixelReader reader = snap.getPixelReader();
-                if (reader != null) {
-                    toolbar.currentColor = reader.getColor((int) lastX, (int) lastY);
-                    toolbar.colorPicker.setValue(toolbar.currentColor);
-                }//Grabs color from PixelReader at X and Y position.
-            }//If statement to handle the eyedropper tool
+            switch (toolbar.currentTool) {
+                case EYEDROPPER -> {
+                    WritableImage snap = canvas.snapshot(null, null);
+                    PixelReader reader = snap.getPixelReader();
+                    if (reader != null) {
+                        toolbar.currentColor = reader.getColor((int) lastX, (int) lastY);
+                        toolbar.colorPicker.setValue(toolbar.currentColor);
+                    }//Grabs color from PixelReader at X and Y position.
+                }
+                case TEXT -> gc.fillText(toolbar.text.getText(),lastX,lastY);
+            }
+            canvasSnapshot = canvas.snapshot(null, null);
         });
 
         canvas.setOnMouseDragged(e -> {
@@ -51,6 +57,21 @@ public class Easel {
                 lastX = e.getX();
                 lastY = e.getY();
                 isDirty = true;
+            }
+            else {
+                gc.drawImage(canvasSnapshot, 0, 0, canvas.getWidth(), canvas.getHeight());
+                switch (toolbar.currentTool) {
+                    case LINE -> drawLine(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case RECT -> drawRect(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case SQUARE -> drawSquare(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case CIRCLE -> drawCircle(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case ELLIPSE -> drawEllipse(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case TRIANGLE -> drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case HEX -> drawHex(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
+                    case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                }
             }
         });
         canvas.setOnMouseReleased(e ->{

@@ -74,8 +74,8 @@ public class MenuManager {
             alert.setContentText("The file menu allows you to open and save images.\nAt the bottom of the screen there are drawing tools to chose from.\nThere is also a dashed check-box to make your objects dashed if selected.");
             alert.showAndWait();
         });
-        undoItem.setOnAction(e -> undoChanges());
-        redoItem.setOnAction(e -> redoChanges());
+        undoItem.setOnAction(e -> {if (!tabManager.currentEasel.undoStack.isEmpty()) undoChanges();});
+        redoItem.setOnAction(e -> {if (!tabManager.currentEasel.redoStack.isEmpty()) redoChanges();});
     }
 
     /*

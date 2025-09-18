@@ -21,7 +21,7 @@ public class ToolBarManager {
     protected TextField text;
 
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY
     }
     /*
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
@@ -71,10 +71,16 @@ public class ToolBarManager {
         ToggleButton eraserBtn = makeToolButton("Eraser", Tool.ERASER, group, false);
         ToggleButton dropperBtn = makeToolButton("Dropper", Tool.EYEDROPPER, group, false);
         ToggleButton polygonBtn = makeToolButton("Polygon", Tool.POLYGON, group, false);
+        ToggleButton selectBtn = makeToolButton("Select", Tool.SELECT, group, false);
+        ToggleButton copyBtn = makeToolButton("Copy", Tool.COPY, group, false);
+        ToggleButton moveBtn = makeToolButton("Move", Tool.MOVE, group, false);
+        ToggleButton pasteBtn = makeToolButton("Paste", Tool.PASTE, group, false);
+
 
         return new ToolBar(
                 pencilBtn, lineBtn, textBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
-                triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, eraserBtn, dropperBtn
+                triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, selectBtn, moveBtn,
+                copyBtn, pasteBtn, eraserBtn, dropperBtn
         );
     }
     /*

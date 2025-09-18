@@ -2,6 +2,7 @@ package com.example.sprint1ms;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
@@ -21,6 +22,8 @@ public class Easel {
     protected WritableImage canvasSnapshot;//used for live drawing functionality
     protected Stack<WritableImage> undoStack;//Undo stack used for holding snapshots of canvas
     protected Stack<WritableImage> redoStack;
+    protected Image selectImg;
+    protected Image copyImg;
     /*
     * The default constructor for the easel. Creates the canvas and mouse handler events
     *
@@ -78,6 +81,8 @@ public class Easel {
                     case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                     case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                     case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                    case MOVE -> gc.drawImage(selectImg, e.getX(), e.getY());
+                    case PASTE -> gc.drawImage(copyImg, e.getX(), e.getY());
                 }
             }
         });
@@ -93,6 +98,10 @@ public class Easel {
                 case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                 case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                 case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                case SELECT -> selectImg = select(lastX, lastY,  e.getX(), e.getY());
+                case MOVE -> gc.drawImage(selectImg, e.getX(), e.getY());
+                case COPY -> copyImg = copy(lastX, lastY, e.getX(), e.getY());
+                case PASTE -> gc.drawImage(copyImg, e.getX(), e.getY());
             }
         });
     }
@@ -187,5 +196,35 @@ public class Easel {
         applyStrokeStyle(toolbar);
         gc.strokePolygon(new double[]{x1,x2,x1},new double[]{y1,y1,y2},3);
         isDirty = true;
+    }
+    private Image select(double x1, double y1, double x2, double y2) {
+        int minX = (int) Math.min(x1, x2);
+        int minY = (int) Math.min(y1, y2);
+        int width = (int) Math.abs(x2 - x1);
+        int height = (int) Math.abs(y2 - y1);
+        // Take snapshot of canvas
+        WritableImage snapshot = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+        canvas.snapshot(null, snapshot);
+        // Extract the selected region
+        Image subImage = new WritableImage(snapshot.getPixelReader(), minX, minY, width, height);
+        //clear the selected area
+        gc.setFill(Color.WHITE);
+        gc.fillRect(minX, minY, width, height);
+        gc.setFill(Color.BLACK);
+
+        return subImage;
+    }
+    private Image copy(double x1, double y1, double x2, double y2) {
+        int minX = (int) Math.min(x1, x2);
+        int minY = (int) Math.min(y1, y2);
+        int width = (int) Math.abs(x2 - x1);
+        int height = (int) Math.abs(y2 - y1);
+        // Take snapshot of canvas
+        WritableImage snapshot = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+        canvas.snapshot(null, snapshot);
+        // Extract the selected region
+        Image subImage = new WritableImage(snapshot.getPixelReader(), minX, minY, width, height);
+
+        return subImage;
     }
 }

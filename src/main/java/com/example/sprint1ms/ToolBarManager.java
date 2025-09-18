@@ -12,8 +12,8 @@ public class ToolBarManager {
 
     protected Color currentColor;
     protected double lineWidth;
-    protected ColorPicker colorPicker = new ColorPicker(Color.BLACK);
-    protected Slider lineWidthSlider = new Slider(1, 20, 2);
+    protected ColorPicker colorPicker;
+    protected Slider lineWidthSlider;
     protected HBox toolBar;
     protected Tool currentTool;
     protected boolean dashed;
@@ -44,7 +44,7 @@ public class ToolBarManager {
                 if (Integer.parseInt(newVal) >= 3) {
                     sides = Integer.parseInt(newVal);
                 }
-            }catch(NumberFormatException e){}//Do nothing if exception is caught (text still in field)
+            }catch(NumberFormatException e){System.out.println("NumberFormatException");}//Print if exception is caught (text still in field)
         });
         text =  new TextField("Text Here");
         toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, new Label ("Polygon Sides:"), polygonSides,

@@ -7,6 +7,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import java.io.File;
+import java.util.Stack;
+
 /*
 * The Easel class is used to hold all drawing related functions and properties such as the canvas and graphics context.
  */
@@ -17,6 +19,8 @@ public class Easel {
     protected boolean isDirty;
     protected File currentFile = null;
     protected WritableImage canvasSnapshot;//used for live drawing functionality
+    protected Stack<WritableImage> undoStack;//Undo stack used for holding snapshots of canvas
+    protected Stack<WritableImage> redoStack;
     /*
     * The default constructor for the easel. Creates the canvas and mouse handler events
     *
@@ -26,11 +30,13 @@ public class Easel {
     public Easel(ToolBarManager toolbar) {
         // Drawing with mouse
         canvas = new Canvas(1000,800);
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.WHITE);
         gc.fillRect(0,0,1000,800);
         gc.setFill(Color.BLACK);//setting fill color back to black so text appears on canvas
-
+        undoStack.push(canvas.snapshot(null,null));//Adds initial canvas to stack
 
         canvas.setOnMousePressed(e -> {
             lastX = e.getX();
@@ -47,6 +53,8 @@ public class Easel {
                 case TEXT -> gc.fillText(toolbar.text.getText(),lastX,lastY);
             }
             canvasSnapshot = canvas.snapshot(null, null);
+            undoStack.push(canvas.snapshot(null, null));//Adds canvas snapshot to stack before modifications
+            if (!redoStack.isEmpty()) {redoStack.clear();}//Clears redo stack if edits are made
         });
 
         canvas.setOnMouseDragged(e -> {

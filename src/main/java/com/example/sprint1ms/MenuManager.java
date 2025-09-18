@@ -42,8 +42,10 @@ public class MenuManager {
         MenuItem openItem = new MenuItem("Open...");
         MenuItem saveItem = new MenuItem("Save");
         MenuItem saveAsItem = new MenuItem("Save As...");
+        MenuItem undoItem = new MenuItem("Undo");
+        MenuItem redoItem = new MenuItem("Redo");
         MenuItem exitItem = new MenuItem("Exit");
-        fileMenu.getItems().addAll(openItem, newTab, saveItem, saveAsItem, new SeparatorMenuItem(), exitItem);
+        fileMenu.getItems().addAll(openItem, newTab, saveItem, saveAsItem,new SeparatorMenuItem(),undoItem, redoItem, new SeparatorMenuItem(), exitItem);
         // Help menu
         Menu helpMenu = new Menu("Help");
         MenuItem helpItem = new MenuItem("Help");
@@ -69,10 +71,11 @@ public class MenuManager {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Help");
             alert.setHeaderText("Help with this Image Editor");
-            alert.setContentText("The file menu allows you to open and save images.\nAt the bottom of the screen there are drawing tools to chose from." +
-                    "\nThere is also a dashed check-box to make your objects dashed if selected.");
+            alert.setContentText("The file menu allows you to open and save images.\nAt the bottom of the screen there are drawing tools to chose from.\nThere is also a dashed check-box to make your objects dashed if selected.");
             alert.showAndWait();
         });
+        undoItem.setOnAction(e -> undoChanges());
+        redoItem.setOnAction(e -> redoChanges());
     }
 
     /*
@@ -155,6 +158,16 @@ public class MenuManager {
         alert.setHeaderText("Unsaved Changes");
         alert.showAndWait();
         return alert.getResult() == ButtonType.YES;
+    }
+    protected void undoChanges(){
+        Easel easel = tabManager.currentEasel;
+        easel.redoStack.push(easel.canvas.snapshot(null,null));
+        easel.gc.drawImage(easel.undoStack.pop(), 0, 0);
+    }
+    protected void redoChanges(){
+        Easel easel = tabManager.currentEasel;
+        easel.undoStack.push(easel.canvas.snapshot(null,null));
+        easel.gc.drawImage(easel.redoStack.pop(), 0, 0);
     }
 
 }

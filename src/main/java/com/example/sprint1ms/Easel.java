@@ -36,11 +36,12 @@ public class Easel {
         gc.setFill(Color.WHITE);
         gc.fillRect(0,0,1000,800);
         gc.setFill(Color.BLACK);//setting fill color back to black so text appears on canvas
-        undoStack.push(canvas.snapshot(null,null));//Adds initial canvas to stack
 
         canvas.setOnMousePressed(e -> {
             lastX = e.getX();
             lastY = e.getY();
+            undoStack.push(canvas.snapshot(null, null));//Adds canvas snapshot to stack before modifications
+            if (!redoStack.isEmpty()) {redoStack.clear();}//Clears redo stack if edits are made
             switch (toolbar.currentTool) {
                 case EYEDROPPER -> {
                     WritableImage snap = canvas.snapshot(null, null);
@@ -53,8 +54,6 @@ public class Easel {
                 case TEXT -> gc.fillText(toolbar.text.getText(),lastX,lastY);
             }
             canvasSnapshot = canvas.snapshot(null, null);
-            undoStack.push(canvas.snapshot(null, null));//Adds canvas snapshot to stack before modifications
-            if (!redoStack.isEmpty()) {redoStack.clear();}//Clears redo stack if edits are made
         });
 
         canvas.setOnMouseDragged(e -> {

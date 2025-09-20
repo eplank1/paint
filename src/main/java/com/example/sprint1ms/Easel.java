@@ -99,7 +99,12 @@ public class Easel {
                 case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                 case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
                 case SELECT -> selectImg = select(lastX, lastY,  e.getX(), e.getY());
-                case MOVE -> gc.drawImage(selectImg, e.getX(), e.getY());
+                case MOVE -> {
+                    if (selectImg!= null) {
+                        gc.drawImage(selectImg, e.getX(), e.getY());
+                        selectImg = null;
+                    }
+                }
                 case COPY -> copyImg = copy(lastX, lastY, e.getX(), e.getY());
                 case PASTE -> gc.drawImage(copyImg, e.getX(), e.getY());
             }

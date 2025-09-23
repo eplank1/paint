@@ -32,12 +32,23 @@ public class ImageApp extends Application {
                 if (e.getCode() == KeyCode.S) menuManager.saveImage(false);
             }
         });
+        Label timerLabel = new Label("Next save in 300s");
+        final int[] counter = {300};
         Timeline autoSave = new Timeline(
-                new KeyFrame(Duration.minutes(5), e -> menuManager.saveImage(false))
+                new KeyFrame(Duration.seconds(1), e -> {
+                    counter[0]--;
+                    timerLabel.setText("Next save in " +  counter[0]+"s");
+                    if (counter[0] <= 0) {
+                        menuManager.saveImage(false);
+                        counter[0] = 300;
+                    }//Saves Image and resets counter
+                })
 
         );
+        autoSave.getCurrentTime();
         autoSave.setCycleCount(Timeline.INDEFINITE);
         autoSave.play();
+        root.setRight(timerLabel);
         primaryStage.setTitle("Image Editor");
         primaryStage.setScene(scene);
         primaryStage.show();

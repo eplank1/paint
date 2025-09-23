@@ -45,7 +45,6 @@ public class ImageApp extends Application {
                 })
 
         );
-        autoSave.getCurrentTime();
         autoSave.setCycleCount(Timeline.INDEFINITE);
         autoSave.play();
         root.setRight(timerLabel);

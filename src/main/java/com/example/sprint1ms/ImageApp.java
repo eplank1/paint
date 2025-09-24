@@ -45,9 +45,15 @@ public class ImageApp extends Application {
                 })
 
         );
+        ToggleButton showTimerButton = new ToggleButton("Show Timer");
+        toolBarHelper.toolBar.getChildren().add(showTimerButton);
+        showTimerButton.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            timerLabel.setVisible(newVal);
+        });
+        ToolBar timerBar = new ToolBar(timerLabel, showTimerButton);
         autoSave.setCycleCount(Timeline.INDEFINITE);
         autoSave.play();
-        root.setRight(timerLabel);
+        root.setRight(timerBar);
         primaryStage.setTitle("Image Editor");
         primaryStage.setScene(scene);
         primaryStage.show();

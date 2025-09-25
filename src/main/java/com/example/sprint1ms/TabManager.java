@@ -16,7 +16,6 @@ public class TabManager {
     protected TabPane tabPane;
     protected Easel currentEasel;
     protected ToolBarManager toolBarManager;
-    protected HttpHandling httpHandling;
     protected HttpServer server;
     protected HttpHandling httpHandler;
     /*

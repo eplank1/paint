@@ -1,9 +1,14 @@
 package com.example.sprint1ms;
 
+import com.sun.net.httpserver.HttpServer;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+
 /*
  * The TabManager class is used to create a tab pane that organizes tabs of easels.
  */
@@ -11,7 +16,9 @@ public class TabManager {
     protected TabPane tabPane;
     protected Easel currentEasel;
     protected ToolBarManager toolBarManager;
-
+    protected HttpHandling httpHandling;
+    protected HttpServer server;
+    protected HttpHandling httpHandler;
     /*
      * The default constructor for creating the TabManager
      *
@@ -21,10 +28,18 @@ public class TabManager {
         tabPane = new TabPane();
         toolBarManager = toolbar;
         currentEasel = addNewTab( "Untitled1");
+        httpHandler = new HttpHandling(currentEasel);
+        try {server = HttpServer.create(new InetSocketAddress(8000),0);}catch (IOException e){e.printStackTrace();}
+        server.createContext("/Images", httpHandler);
+        server.start();
 
         tabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, selectedTab) -> {
             if (selectedTab != null) {
                 currentEasel = (Easel) selectedTab.getUserData();
+                httpHandler.easel = currentEasel;
+            }
+            else  {
+                httpHandler.easel = null;
             }
         });
 

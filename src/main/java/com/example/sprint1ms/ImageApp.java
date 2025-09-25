@@ -18,6 +18,7 @@ public class ImageApp extends Application {
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
 
+
         ToolBarManager toolBarHelper = new ToolBarManager();
         TabManager tabManager = new TabManager(toolBarHelper);
         MenuManager menuManager = new MenuManager(tabManager, primaryStage, toolBarHelper);

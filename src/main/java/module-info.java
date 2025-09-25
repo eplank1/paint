@@ -5,6 +5,7 @@ module com.example.sprint1ms {
     requires javafx.swing;
     requires javafx.graphics;
     requires java.compiler;
+    requires jdk.httpserver;
 
 
     opens com.example.sprint1ms to javafx.fxml;

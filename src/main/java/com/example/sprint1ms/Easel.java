@@ -1,5 +1,6 @@
 package com.example.sprint1ms;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -7,6 +8,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Stack;
 
@@ -231,5 +233,11 @@ public class Easel {
         Image subImage = new WritableImage(snapshot.getPixelReader(), minX, minY, width, height);
 
         return subImage;
+    }
+
+    protected BufferedImage GetBufferedImage() {
+        WritableImage writableImage = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
+        writableImage = canvas.snapshot(null, null);
+        return SwingFXUtils.fromFXImage(writableImage, null);
     }
 }

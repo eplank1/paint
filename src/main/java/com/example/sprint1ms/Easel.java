@@ -24,6 +24,8 @@ public class Easel {
     protected Stack<WritableImage> redoStack;
     protected Image selectImg;
     protected Image copyImg;
+    protected static String originalFormat;
+    protected static String convertFormat;
     /*
     * The default constructor for the easel. Creates the canvas and mouse handler events
     *
@@ -33,6 +35,7 @@ public class Easel {
     public Easel(ToolBarManager toolbar) {
         // Drawing with mouse
         canvas = new Canvas(1000,800);
+        originalFormat = "png"; //set default format to be png for an empty canvas
         undoStack = new Stack<>();
         redoStack = new Stack<>();
         gc = canvas.getGraphicsContext2D();

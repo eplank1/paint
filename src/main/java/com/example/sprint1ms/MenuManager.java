@@ -20,6 +20,7 @@ public class MenuManager {
     protected TabManager tabManager;
     protected Stage stage;
     protected ToolBarManager toolBarManager;
+    final int[] counter = {300};
 
     /*
     * The default constructor for the MenuManager, creates the menubar and
@@ -98,6 +99,7 @@ public class MenuManager {
             easel.gc.drawImage(image, 0,0);
             easel.currentFile = file;
             easel.isDirty = false;
+            Easel.originalFormat = PaintUtility.getFileExtension(file);
         }
     }
     /*
@@ -124,26 +126,27 @@ public class MenuManager {
             if (file == null) return;
             easel.currentFile = file;
         }
+        Easel.convertFormat = PaintUtility.getFileExtension(file);
+        if (confirmConvert(easel)) {
 
-        try {
-            // Create writable image the same size as the loaded image
-            int width = (int) easel.canvas.getWidth();
-            int height = (int) easel.canvas.getHeight();
-            WritableImage writable = new WritableImage(width, height);
+            try {
+                // Create writable image the same size as the loaded image
+                int width = (int) easel.canvas.getWidth();
+                int height = (int) easel.canvas.getHeight();
+                WritableImage writable = new WritableImage(width, height);
 
-            // Then draw easel.canvas edits on top
-            easel.canvas.snapshot(null, writable);
+                easel.canvas.snapshot(null, writable);
 
-            // Convert to BufferedImage for saving
-            BufferedImage bImage = SwingFXUtils.fromFXImage(writable, null);
-            String format = PaintUtility.getFileExtension(file);
+                // Convert to BufferedImage for saving
+                BufferedImage bImage = SwingFXUtils.fromFXImage(writable, null);
 
-
-            ImageIO.write(bImage, format, file);
-            easel.isDirty = false;
-        } catch (IOException ex) {
-            ex.printStackTrace();
+                ImageIO.write(bImage, "png", file);
+                easel.isDirty = false;
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
+        counter[0] = 300;
     }
     /*
      * The confirmUnsaved function is used to get confirmation from
@@ -170,5 +173,17 @@ public class MenuManager {
         easel.undoStack.push(easel.canvas.snapshot(null,null));
         easel.gc.drawImage(easel.redoStack.pop(), 0, 0);
     }
-
+    protected boolean confirmConvert(Easel easel){
+        Boolean isConfirmed = false;
+        if ("png".equalsIgnoreCase(easel.originalFormat)) return true;
+        else if ((easel.originalFormat.equals("jpg") || easel.originalFormat.equals("jpeg") || easel.originalFormat.equals("bmp"))
+                && easel.convertFormat.equals("png")) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "The current format you are saving as will involve loss. Do you want to continue?", ButtonType.YES, ButtonType.NO);
+            alert.setHeaderText("Converting Formats Warning");
+            alert.showAndWait();
+            isConfirmed = (alert.getResult() == ButtonType.YES);
+            return isConfirmed;
+        }
+        return isConfirmed;
+    }
 }

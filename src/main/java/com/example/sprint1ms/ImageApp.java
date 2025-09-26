@@ -33,21 +33,22 @@ public class ImageApp extends Application {
                 if (e.getCode() == KeyCode.S) menuManager.saveImage(false);
             }
         });
-        Label timerLabel = new Label("Next save in 300s");
-        final int[] counter = {300};
+
+        Label timerLabel = new Label("Next save in "+ menuManager.counter[0]+ "s");
         Timeline autoSave = new Timeline(
                 new KeyFrame(Duration.seconds(1), e -> {
-                    counter[0]--;
-                    timerLabel.setText("Next save in " +  counter[0]+"s");
-                    if (counter[0] <= 0) {
+                    menuManager.counter[0]--;
+                    timerLabel.setText("Next save in " +  menuManager.counter[0]+"s");
+                    if (menuManager.counter[0] <= 0) {
                         menuManager.saveImage(false);
-                        counter[0] = 300;
+                        menuManager.counter[0] = 300;
                     }//Saves Image and resets counter
                 })
 
         );
         ToggleButton showTimerButton = new ToggleButton("Show Timer");
         toolBarHelper.toolBar.getChildren().add(showTimerButton);
+        showTimerButton.selectedProperty().setValue(true);//Have show timer button be selected by default
         showTimerButton.selectedProperty().addListener((obs, oldVal, newVal) -> {
             timerLabel.setVisible(newVal);
         });

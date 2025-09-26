@@ -29,7 +29,7 @@ public class HttpHandling implements HttpHandler {
         }
         Platform.runLater(() -> {
             try {
-                BufferedImage bImage = easel.GetBufferedImage();
+                BufferedImage bImage = PaintUtility.GetBufferedImage(easel.canvas);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ImageIO.write(bImage, "png", bos);
                 byte[] image = bos.toByteArray();

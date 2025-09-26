@@ -136,7 +136,7 @@ public class MenuManager {
 
             // Convert to BufferedImage for saving
             BufferedImage bImage = SwingFXUtils.fromFXImage(writable, null);
-            String format = getFileExtension(file);
+            String format = PaintUtility.getFileExtension(file);
 
 
             ImageIO.write(bImage, format, file);
@@ -169,14 +169,6 @@ public class MenuManager {
         Easel easel = tabManager.currentEasel;
         easel.undoStack.push(easel.canvas.snapshot(null,null));
         easel.gc.drawImage(easel.redoStack.pop(), 0, 0);
-    }
-    protected String getFileExtension(File file){
-        String fileName = file.getName();
-        int dotIndex = fileName.lastIndexOf('.');
-        if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
-            return fileName.substring(dotIndex+1).toLowerCase();
-        }
-        return "png";//by default return png format
     }
 
 }

@@ -57,24 +57,24 @@ public class ToolBarManager {
     private ToolBar buildToolBar() {
         ToggleGroup group = new ToggleGroup();//Adding buttons to a toggle group makes one button activatable at a time
 
-        ToggleButton pencilBtn = makeToolButton("Pencil", Tool.PENCIL, group, true);
-        ToggleButton lineBtn = makeToolButton("Line", Tool.LINE, group, false);
-        ToggleButton textBtn = makeToolButton("Text", Tool.TEXT, group, false);
-        ToggleButton rectBtn = makeToolButton("Rect", Tool.RECT, group, false);
-        ToggleButton squareBtn = makeToolButton("Square",Tool.SQUARE, group, false);
-        ToggleButton circleBtn = makeToolButton("Circle", Tool.CIRCLE, group, false);
-        ToggleButton ellipseBtn = makeToolButton("Oval", Tool.ELLIPSE, group, false);
-        ToggleButton triangleBtn = makeToolButton("Triangle", Tool.TRIANGLE, group, false);
-        ToggleButton rtriangleBtn = makeToolButton("R-Triangle", Tool.RTRIANGLE, group, false);
-        ToggleButton hexBtn = makeToolButton("Hex", Tool.HEX, group, false);
-        ToggleButton octBtn = makeToolButton("Oct", Tool.OCT, group, false);
-        ToggleButton eraserBtn = makeToolButton("Eraser", Tool.ERASER, group, false);
-        ToggleButton dropperBtn = makeToolButton("Dropper", Tool.EYEDROPPER, group, false);
-        ToggleButton polygonBtn = makeToolButton("Polygon", Tool.POLYGON, group, false);
-        ToggleButton selectBtn = makeToolButton("Select", Tool.SELECT, group, false);
-        ToggleButton copyBtn = makeToolButton("Copy", Tool.COPY, group, false);
-        ToggleButton moveBtn = makeToolButton("Move", Tool.MOVE, group, false);
-        ToggleButton pasteBtn = makeToolButton("Paste", Tool.PASTE, group, false);
+        ToggleButton pencilBtn = PaintUtility.makeToolButton("Pencil", Tool.PENCIL, group, true, this);
+        ToggleButton lineBtn = PaintUtility.makeToolButton("Line", Tool.LINE, group, false, this);
+        ToggleButton textBtn = PaintUtility.makeToolButton("Text", Tool.TEXT, group, false, this);
+        ToggleButton rectBtn = PaintUtility.makeToolButton("Rect", Tool.RECT, group, false, this);
+        ToggleButton squareBtn = PaintUtility.makeToolButton("Square",Tool.SQUARE, group, false, this);
+        ToggleButton circleBtn = PaintUtility.makeToolButton("Circle", Tool.CIRCLE, group, false, this);
+        ToggleButton ellipseBtn = PaintUtility.makeToolButton("Oval", Tool.ELLIPSE, group, false, this);
+        ToggleButton triangleBtn = PaintUtility.makeToolButton("Triangle", Tool.TRIANGLE, group, false, this);
+        ToggleButton rtriangleBtn = PaintUtility.makeToolButton("R-Triangle", Tool.RTRIANGLE, group, false, this);
+        ToggleButton hexBtn = PaintUtility.makeToolButton("Hex", Tool.HEX, group, false, this);
+        ToggleButton octBtn = PaintUtility.makeToolButton("Oct", Tool.OCT, group, false, this);
+        ToggleButton eraserBtn = PaintUtility.makeToolButton("Eraser", Tool.ERASER, group, false, this);
+        ToggleButton dropperBtn = PaintUtility.makeToolButton("Dropper", Tool.EYEDROPPER, group, false, this);
+        ToggleButton polygonBtn = PaintUtility.makeToolButton("Polygon", Tool.POLYGON, group, false, this);
+        ToggleButton selectBtn =PaintUtility. makeToolButton("Select", Tool.SELECT, group, false, this);
+        ToggleButton copyBtn = PaintUtility.makeToolButton("Copy", Tool.COPY, group, false, this);
+        ToggleButton moveBtn = PaintUtility.makeToolButton("Move", Tool.MOVE, group, false, this);
+        ToggleButton pasteBtn = PaintUtility.makeToolButton("Paste", Tool.PASTE, group, false, this);
 
 
         return new ToolBar(
@@ -82,21 +82,6 @@ public class ToolBarManager {
                 triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, selectBtn, moveBtn,
                 copyBtn, pasteBtn, eraserBtn, dropperBtn
         );
-    }
-    /*
-    * Creates a ToggleButton using a button name, tool from the toolbar, toggle-group and a boolean.
-    * @param text      The text string applied to the button.
-    * @param tool      The tool that the button affects/activates.
-    * @param group     The toggle group that the button must be applied to
-    * @param selected  Boolean to distinguish whether the button is currently selected or not.
-     */
-    private ToggleButton makeToolButton(String text, Tool tool, ToggleGroup group, boolean selected) {
-        ToggleButton btn = new ToggleButton(text);
-        btn.setToggleGroup(group);
-        btn.setSelected(selected);
-        if (selected) currentTool = tool;
-        btn.setOnAction(e -> currentTool = tool);
-        return btn;
     }
 
 }

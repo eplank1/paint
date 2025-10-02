@@ -57,24 +57,42 @@ public class ToolBarManager {
     private ToolBar buildToolBar() {
         ToggleGroup group = new ToggleGroup();//Adding buttons to a toggle group makes one button activatable at a time
 
-        ToggleButton pencilBtn = PaintUtility.makeToolButton("Pencil", Tool.PENCIL, group, true, this);
+        ToggleButton pencilBtn = PaintUtility.makeToolButton("Pen", Tool.PENCIL, group, true, this);
+        pencilBtn.setTooltip(new Tooltip("Pencil tool that allows user to draw freely on the canvas"));
         ToggleButton lineBtn = PaintUtility.makeToolButton("Line", Tool.LINE, group, false, this);
+        lineBtn.setTooltip(new Tooltip("Line tool that allows user to draw  straight lines on the canvas"));
         ToggleButton textBtn = PaintUtility.makeToolButton("Text", Tool.TEXT, group, false, this);
+        textBtn.setTooltip(new Tooltip("Text tool that allows user to add text on the canvas"));
         ToggleButton rectBtn = PaintUtility.makeToolButton("Rect", Tool.RECT, group, false, this);
+        rectBtn.setTooltip(new Tooltip("Rectangle tool that allows user to draw rectangles on the canvas"));
         ToggleButton squareBtn = PaintUtility.makeToolButton("Square",Tool.SQUARE, group, false, this);
+        squareBtn.setTooltip(new Tooltip("Square tool that allows user to draw squares on the canvas"));
         ToggleButton circleBtn = PaintUtility.makeToolButton("Circle", Tool.CIRCLE, group, false, this);
+        circleBtn.setTooltip(new Tooltip("Circle tool that allows user to draw circles on the canvas"));
         ToggleButton ellipseBtn = PaintUtility.makeToolButton("Oval", Tool.ELLIPSE, group, false, this);
-        ToggleButton triangleBtn = PaintUtility.makeToolButton("Triangle", Tool.TRIANGLE, group, false, this);
-        ToggleButton rtriangleBtn = PaintUtility.makeToolButton("R-Triangle", Tool.RTRIANGLE, group, false, this);
+        ellipseBtn.setTooltip(new Tooltip("Ellipse tool that allows user to draw ellipses on the canvas"));
+        ToggleButton triangleBtn = PaintUtility.makeToolButton("Tri", Tool.TRIANGLE, group, false, this);
+        triangleBtn.setTooltip(new Tooltip("Triangle  tool that allows user to draw triangles on the canvas"));
+        ToggleButton rtriangleBtn = PaintUtility.makeToolButton("R-Tri", Tool.RTRIANGLE, group, false, this);
+        rtriangleBtn.setTooltip(new Tooltip("Right Triangle tool that allows user to draw right triangles on the canvas"));
         ToggleButton hexBtn = PaintUtility.makeToolButton("Hex", Tool.HEX, group, false, this);
+        hexBtn.setTooltip(new Tooltip("Hexagon tool that allows user to draw hexagons on the canvas"));
         ToggleButton octBtn = PaintUtility.makeToolButton("Oct", Tool.OCT, group, false, this);
+        octBtn.setTooltip(new Tooltip("Octagon tool that allows user to draw octagons on the canvas"));
         ToggleButton eraserBtn = PaintUtility.makeToolButton("Eraser", Tool.ERASER, group, false, this);
+        eraserBtn.setTooltip(new Tooltip("Eraser tool that allows user to freely erase the canvas or images if they are loaded"));
         ToggleButton dropperBtn = PaintUtility.makeToolButton("Dropper", Tool.EYEDROPPER, group, false, this);
-        ToggleButton polygonBtn = PaintUtility.makeToolButton("Polygon", Tool.POLYGON, group, false, this);
+        dropperBtn.setTooltip(new Tooltip("Dropper tool that allows user to grab the color from a pixel on the canvas for use in other drawing tools"));
+        ToggleButton polygonBtn = PaintUtility.makeToolButton("Poly", Tool.POLYGON, group, false, this);
+        polygonBtn.setTooltip(new Tooltip("Polygon tool that allows user to draw polygons on the canvas"));
         ToggleButton selectBtn =PaintUtility. makeToolButton("Select", Tool.SELECT, group, false, this);
+        selectBtn.setTooltip(new Tooltip("Select tool that allows user to select portions of the canvas to be moved using the MOVE tool"));
         ToggleButton copyBtn = PaintUtility.makeToolButton("Copy", Tool.COPY, group, false, this);
+        copyBtn.setTooltip(new Tooltip("Copy tool that allows user to copy portions of the canvas that can be pasted using the PASTE tool"));
         ToggleButton moveBtn = PaintUtility.makeToolButton("Move", Tool.MOVE, group, false, this);
+        moveBtn.setTooltip(new Tooltip("Move tool that moves selected portion of the image to desired location (selected portion must be reselected after moving)"));
         ToggleButton pasteBtn = PaintUtility.makeToolButton("Paste", Tool.PASTE, group, false, this);
+        pasteBtn.setTooltip(new Tooltip("Paste tool that pastes copied portion of the canvas on desired location (copied portion is not lost after pasting)"));
 
 
         return new ToolBar(

@@ -31,6 +31,8 @@ public class ImageApp extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.isControlDown()){
                 if (e.getCode() == KeyCode.S) menuManager.saveImage(false);
+                else if (e.getCode() == KeyCode.Z) menuManager.undoChanges();
+                else if (e.getCode() == KeyCode.Y) menuManager.redoChanges();
             }
         });
 

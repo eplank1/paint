@@ -84,6 +84,7 @@ public class Easel {
                     case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                     case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                     case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                    case STAR -> drawStar(toolbar, lastX, lastY, e.getX(), e.getY(), toolbar.sides);
                     case MOVE -> gc.drawImage(selectImg, e.getX(), e.getY());
                     case PASTE -> gc.drawImage(copyImg, e.getX(), e.getY());
                 }
@@ -101,6 +102,7 @@ public class Easel {
                 case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                 case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                 case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                case STAR -> drawStar(toolbar, lastX, lastY, e.getX(), e.getY(), toolbar.sides);
                 case SELECT -> selectImg = select(lastX, lastY,  e.getX(), e.getY());
                 case MOVE -> {
                     if (selectImg!= null) {
@@ -193,6 +195,29 @@ public class Easel {
         }
         gc.strokePolygon(xpoints,ypoints,sides);
         isDirty = true;
+    }
+    private void drawStar(ToolBarManager toolbar, double x1, double y1, double x2, double y2, int points){
+        applyStrokeStyle(toolbar);
+        double centerX = (x1 + x2) / 2;
+        double centerY = (y1 + y2) / 2;
+        double outerRadius = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)) / 2;
+        double innerRadius = outerRadius * 0.5;
+
+        int totalPoints = points * 2;
+        double[] xpoints = new double[totalPoints];
+        double[] ypoints = new double[totalPoints];
+
+        double angleStep = Math.PI / points;
+
+        for (int i = 0; i < totalPoints; i++) {
+            double angle = i * angleStep;
+            double radius = (i % 2 == 0) ? outerRadius : innerRadius;
+            xpoints[i] = centerX + radius * Math.cos(angle);
+            ypoints[i] = centerY + radius * Math.sin(angle);
+        }
+
+        gc.strokePolygon(xpoints, ypoints, totalPoints);
+        isDirty=true;
     }
     private void drawSquare(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);

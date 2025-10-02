@@ -21,7 +21,7 @@ public class ToolBarManager {
     protected TextField text;
 
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY, STAR
     }
     /*
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
@@ -36,6 +36,7 @@ public class ToolBarManager {
         colorPicker.setOnAction(e -> currentColor = colorPicker.getValue());
         lineWidthSlider.valueProperty().addListener((obs, oldVal, newVal) -> lineWidth = newVal.doubleValue());
         CheckBox dashedBox = new CheckBox("Dashed");
+        dashedBox.setTooltip(new Tooltip("Shapes drawn are dashed if selected"));
         dashedBox.setOnAction(e -> dashed = dashedBox.isSelected());
         TextField polygonSides = new TextField("");
         polygonSides.setPrefWidth(50);
@@ -47,7 +48,7 @@ public class ToolBarManager {
             }catch(NumberFormatException e){System.out.println("NumberFormatException");}//Print if exception is caught (text still in field)
         });
         text =  new TextField("Text Here");
-        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, new Label ("Polygon Sides:"), polygonSides,
+        toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, new Label ("Sides/Points:"), polygonSides,
         new Label ("Text:"), text);//Adding tools to toolbar
     }
     /*
@@ -84,7 +85,9 @@ public class ToolBarManager {
         ToggleButton dropperBtn = PaintUtility.makeToolButton("Dropper", Tool.EYEDROPPER, group, false, this);
         dropperBtn.setTooltip(new Tooltip("Dropper tool that allows user to grab the color from a pixel on the canvas for use in other drawing tools"));
         ToggleButton polygonBtn = PaintUtility.makeToolButton("Poly", Tool.POLYGON, group, false, this);
-        polygonBtn.setTooltip(new Tooltip("Polygon tool that allows user to draw polygons on the canvas"));
+        polygonBtn.setTooltip(new Tooltip("Polygon tool that allows user to draw polygons on the canvas (# of sides set by putting desired number of sides in sides/points field)"));
+        ToggleButton starBtn = PaintUtility.makeToolButton("Star", Tool.STAR, group, false, this);
+        starBtn.setTooltip(new Tooltip("Star tool that allows user to draw stars on the canvas (# of points set by putting desired number of points in sides/points field)"));
         ToggleButton selectBtn =PaintUtility. makeToolButton("Select", Tool.SELECT, group, false, this);
         selectBtn.setTooltip(new Tooltip("Select tool that allows user to select portions of the canvas to be moved using the MOVE tool"));
         ToggleButton copyBtn = PaintUtility.makeToolButton("Copy", Tool.COPY, group, false, this);
@@ -97,7 +100,7 @@ public class ToolBarManager {
 
         return new ToolBar(
                 pencilBtn, lineBtn, textBtn, rectBtn, squareBtn, circleBtn, ellipseBtn,
-                triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, selectBtn, moveBtn,
+                triangleBtn, rtriangleBtn, hexBtn, octBtn, polygonBtn, starBtn, selectBtn, moveBtn,
                 copyBtn, pasteBtn, eraserBtn, dropperBtn
         );
     }

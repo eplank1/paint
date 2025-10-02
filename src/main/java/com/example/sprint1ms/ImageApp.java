@@ -28,6 +28,7 @@ public class ImageApp extends Application {
         root.setCenter(tabManager.tabPane);
 
         Scene scene = new Scene(root, 1000, 700);
+        //adding handlers for hot-keys
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.isControlDown()){
                 if (e.getCode() == KeyCode.S) menuManager.saveImage(false);

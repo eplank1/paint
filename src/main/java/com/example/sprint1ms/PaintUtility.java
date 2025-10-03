@@ -28,9 +28,9 @@ public class PaintUtility {
      * @param group     The toggle group that the button must be applied to
      * @param selected  Boolean to distinguish whether the button is currently selected or not.
      */
-    static public ToggleButton makeToolButton(String text, ToolBarManager.Tool tool, ToggleGroup group, boolean selected, ToolBarManager toolBarManager, String path) {
+    static public ToggleButton makeToolButton(String text, ToolBarManager.Tool tool, ToggleGroup group, boolean selected, ToolBarManager toolBarManager, String filename) {
         ToggleButton btn = new ToggleButton(text);
-        javafx.scene.image.Image img = new Image(path);
+        javafx.scene.image.Image img = new Image( "C:\\Users\\Ethan\\cs250\\sprint1ms\\src\\main\\resources\\"+ filename);
         ImageView imageView = new ImageView(img);
         btn.setGraphic(imageView);
         btn.setToggleGroup(group);

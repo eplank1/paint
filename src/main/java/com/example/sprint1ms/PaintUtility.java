@@ -3,6 +3,8 @@ package com.example.sprint1ms;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.canvas.Canvas;
 
@@ -26,8 +28,11 @@ public class PaintUtility {
      * @param group     The toggle group that the button must be applied to
      * @param selected  Boolean to distinguish whether the button is currently selected or not.
      */
-    static public ToggleButton makeToolButton(String text, ToolBarManager.Tool tool, ToggleGroup group, boolean selected, ToolBarManager toolBarManager) {
+    static public ToggleButton makeToolButton(String text, ToolBarManager.Tool tool, ToggleGroup group, boolean selected, ToolBarManager toolBarManager, String path) {
         ToggleButton btn = new ToggleButton(text);
+        javafx.scene.image.Image img = new Image(path);
+        ImageView imageView = new ImageView(img);
+        btn.setGraphic(imageView);
         btn.setToggleGroup(group);
         btn.setSelected(selected);
         if (selected) toolBarManager.currentTool = tool;

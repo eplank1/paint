@@ -1,5 +1,6 @@
 package com.example.sprint1ms;
 
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -259,6 +260,32 @@ public class Easel {
         Image subImage = new WritableImage(snapshot.getPixelReader(), minX, minY, width, height);
 
         return subImage;
+    }
+    protected void rotate() {
+        WritableImage snapshot = canvas.snapshot(null, null);
+
+        double originalWidth = canvas.getWidth();
+        double originalHeight = canvas.getHeight();
+        WritableImage rotatedImage = new WritableImage((int) originalHeight, (int) originalWidth);
+
+        Canvas tempCanvas = new Canvas(originalHeight, originalWidth);
+        GraphicsContext tempGC = tempCanvas.getGraphicsContext2D();
+
+        tempGC.save();
+        tempGC.translate(originalHeight / 2, originalWidth / 2);
+        tempGC.rotate(90);
+        tempGC.drawImage(snapshot, -originalWidth / 2, -originalHeight / 2);
+        tempGC.restore();
+
+        canvas.setWidth(originalHeight);
+        canvas.setHeight(originalWidth);
+        gc.clearRect(0, 0, originalHeight, originalWidth);
+
+        SnapshotParameters rotateParams = new SnapshotParameters();
+        rotateParams.setFill(Color.WHITE);
+        WritableImage rotatedSnapshot = tempCanvas.snapshot(rotateParams, rotatedImage);
+
+        gc.drawImage(rotatedSnapshot, 0, 0);
     }
 
 }

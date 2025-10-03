@@ -51,8 +51,14 @@ public class MenuManager {
         Menu helpMenu = new Menu("Help");
         MenuItem helpItem = new MenuItem("Help");
         MenuItem aboutItem = new MenuItem("About");
+        //Image menu
+        Menu imageMenu = new Menu("Image");
+        MenuItem rotateItem = new MenuItem("Rotate");
+        rotateItem.setOnAction(e -> tabManager.currentEasel.rotate());
+        imageMenu.getItems().addAll(rotateItem);
+
         helpMenu.getItems().addAll(helpItem, aboutItem);
-        menuBar.getMenus().addAll(fileMenu, helpMenu);
+        menuBar.getMenus().addAll(fileMenu, helpMenu, imageMenu);
         newTab.setOnAction(e -> tabManager.addNewTab("Untitled"));
         openItem.setOnAction(e -> openImage());
         saveItem.setOnAction(e -> saveImage(false));

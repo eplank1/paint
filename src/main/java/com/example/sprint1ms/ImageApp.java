@@ -5,11 +5,16 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
 
 
 public class ImageApp extends Application {
@@ -17,6 +22,7 @@ public class ImageApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
+        LogHelper logHelper = new LogHelper();
 
 
         ToolBarManager toolBarHelper = new ToolBarManager();
@@ -46,6 +52,16 @@ public class ImageApp extends Application {
                         menuManager.saveImage(false);
                         menuManager.counter[0] = 300;
                     }//Saves Image and resets counter
+                    else if (menuManager.counter[0] == 120) {
+                        try {
+                            File file = new File("C:\\Users\\Ethan\\Pictures\\Cyberpunk 2077\\photomode_18082025_104631.png");
+                            final TrayIcon trayIcon = new TrayIcon(ImageIO.read(file));
+                            trayIcon.displayMessage("Autosave in 2 minutes","The canvas will autosave in 2 minutes",TrayIcon.MessageType.INFO);
+                        } catch (Exception ex) {
+                            System.out.println("Cant believe you thought that would work");
+                        }
+
+                    }
                 })
 
         );
@@ -54,6 +70,7 @@ public class ImageApp extends Application {
         showTimerButton.selectedProperty().setValue(true);//Have show timer button be selected by default
         showTimerButton.selectedProperty().addListener((obs, oldVal, newVal) -> {
             timerLabel.setVisible(newVal);
+            logHelper.addLog("Timer was turned off");
         });
         ToolBar timerBar = new ToolBar(timerLabel, showTimerButton);
         autoSave.setCycleCount(Timeline.INDEFINITE);

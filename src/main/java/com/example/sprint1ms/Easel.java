@@ -287,5 +287,13 @@ public class Easel {
 
         gc.drawImage(rotatedSnapshot, 0, 0);
     }
+    protected void verticalFlip(){
+        WritableImage temp = canvas.snapshot(null, null);
+        gc.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), 0, temp.getHeight(), temp.getWidth(), -temp.getHeight());
+    }
+    protected void horizontalFlip(){
+        WritableImage temp = canvas.snapshot(null, null);
+        gc.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), temp.getWidth(), 0, -temp.getWidth(), temp.getHeight());
+    }
 
 }

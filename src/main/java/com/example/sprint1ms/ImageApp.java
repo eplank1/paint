@@ -70,7 +70,8 @@ public class ImageApp extends Application {
         showTimerButton.selectedProperty().setValue(true);//Have show timer button be selected by default
         showTimerButton.selectedProperty().addListener((obs, oldVal, newVal) -> {
             timerLabel.setVisible(newVal);
-            logHelper.addLog("Timer was turned off");
+            if (showTimerButton.isVisible()) {logHelper.addLog("Timer was turned on");}
+            else logHelper.addLog("Timer was turned off");
         });
         ToolBar timerBar = new ToolBar(timerLabel, showTimerButton);
         autoSave.setCycleCount(Timeline.INDEFINITE);

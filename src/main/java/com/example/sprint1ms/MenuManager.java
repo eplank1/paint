@@ -54,8 +54,12 @@ public class MenuManager {
         //Image menu
         Menu imageMenu = new Menu("Image");
         MenuItem rotateItem = new MenuItem("Rotate");
+        MenuItem verticalFlipItem = new MenuItem("Vertical Flip");
+        MenuItem horizontalFlipItem = new MenuItem("Horizontal Flip");
+        verticalFlipItem.setOnAction(e -> tabManager.currentEasel.verticalFlip());
+        horizontalFlipItem.setOnAction(e -> tabManager.currentEasel.horizontalFlip());
         rotateItem.setOnAction(e -> tabManager.currentEasel.rotate());
-        imageMenu.getItems().addAll(rotateItem);
+        imageMenu.getItems().addAll(rotateItem, verticalFlipItem, horizontalFlipItem);
 
         helpMenu.getItems().addAll(helpItem, aboutItem);
         menuBar.getMenus().addAll(fileMenu, helpMenu, imageMenu);

@@ -27,6 +27,7 @@ public class Easel {
     protected Image copyImg;
     protected static String originalFormat;
     protected static String convertFormat;
+    protected ToolBarManager toolBarManager;
     /*
     * The default constructor for the easel. Creates the canvas and mouse handler events
     *
@@ -35,6 +36,7 @@ public class Easel {
      */
     public Easel(ToolBarManager toolbar) {
         // Drawing with mouse
+        toolBarManager = toolbar;
         canvas = new Canvas(1000,800);
         originalFormat = "png"; //set default format to be png for an empty canvas
         undoStack = new Stack<>();
@@ -58,7 +60,10 @@ public class Easel {
                         toolbar.colorPicker.setValue(toolbar.currentColor);
                     }//Grabs color from PixelReader at X and Y position.
                 }
-                case TEXT -> gc.fillText(toolbar.text.getText(),lastX,lastY);
+                case TEXT -> {
+                    gc.fillText(toolbar.text.getText(),lastX,lastY);
+                    toolBarManager.logHelper.addLog("Text "+ '"' +toolbar.text.getText()+ '"' + " added to image");
+                }
             }
             canvasSnapshot = canvas.snapshot(null, null);
         });
@@ -71,6 +76,7 @@ public class Easel {
                 lastX = e.getX();
                 lastY = e.getY();
                 isDirty = true;
+                toolBarManager.logHelper.addLog("Pen being dragged.");
             }
             else {
                 gc.drawImage(canvasSnapshot, 0, 0, canvas.getWidth(), canvas.getHeight());
@@ -93,26 +99,54 @@ public class Easel {
         });
         canvas.setOnMouseReleased(e ->{
             switch (toolbar.currentTool) {
-                case LINE -> drawLine(toolbar, lastX, lastY, e.getX(), e.getY());
-                case RECT -> drawRect(toolbar, lastX, lastY, e.getX(), e.getY());
-                case SQUARE -> drawSquare(toolbar, lastX, lastY, e.getX(), e.getY());
-                case CIRCLE -> drawCircle(toolbar, lastX, lastY, e.getX(), e.getY());
-                case ELLIPSE -> drawEllipse(toolbar, lastX, lastY, e.getX(), e.getY());
-                case TRIANGLE -> drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                case LINE -> {
+                    drawLine(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Line drawn on canvas.");
+                }
+                case RECT -> {
+                    drawRect(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Rect drawn on canvas.");
+                }
+                case SQUARE -> {
+                    drawSquare(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Square drawn on canvas.");
+                }
+                case CIRCLE -> {
+                    drawCircle(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Circle drawn on canvas.");
+                }
+                case ELLIPSE -> {
+                    drawEllipse(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Ellipse drawn on canvas.");
+                }
+                case TRIANGLE -> {
+                    drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Triangle drawn on canvas.");
+                }
                 case HEX -> drawHex(toolbar, lastX, lastY, e.getX(), e.getY());
-                case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                case RTRIANGLE -> {
+                    drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("RTriangle drawn on canvas.");
+                }
                 case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
-                case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                case POLYGON -> {
+                    drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
+                    toolBarManager.logHelper.addLog("Polygon drawn on canvas.");
+                }
                 case STAR -> drawStar(toolbar, lastX, lastY, e.getX(), e.getY(), toolbar.sides);
                 case SELECT -> selectImg = select(lastX, lastY,  e.getX(), e.getY());
                 case MOVE -> {
                     if (selectImg!= null) {
                         gc.drawImage(selectImg, e.getX(), e.getY());
                         selectImg = null;
+                        toolBarManager.logHelper.addLog("Select portion of image on moved onto canvas.");
                     }
                 }
                 case COPY -> copyImg = copy(lastX, lastY, e.getX(), e.getY());
-                case PASTE -> gc.drawImage(copyImg, e.getX(), e.getY());
+                case PASTE -> {
+                    gc.drawImage(copyImg, e.getX(), e.getY());
+                    toolBarManager.logHelper.addLog("Image portion pasted on canvas.");
+                }
             }
         });
     }
@@ -286,14 +320,17 @@ public class Easel {
         WritableImage rotatedSnapshot = tempCanvas.snapshot(rotateParams, rotatedImage);
 
         gc.drawImage(rotatedSnapshot, 0, 0);
+        toolBarManager.logHelper.addLog("Canvas rotated 90 degrees");
     }
     protected void verticalFlip(){
         WritableImage temp = canvas.snapshot(null, null);
         gc.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), 0, temp.getHeight(), temp.getWidth(), -temp.getHeight());
+        toolBarManager.logHelper.addLog("Canvas Vertically Flipped");
     }
     protected void horizontalFlip(){
         WritableImage temp = canvas.snapshot(null, null);
         gc.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), temp.getWidth(), 0, -temp.getWidth(), temp.getHeight());
+        toolBarManager.logHelper.addLog("Canvas Horizontally Flipped");
     }
 
 }

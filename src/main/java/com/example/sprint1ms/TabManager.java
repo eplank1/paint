@@ -36,6 +36,7 @@ public class TabManager {
             if (selectedTab != null) {
                 currentEasel = (Easel) selectedTab.getUserData();
                 httpHandler.easel = currentEasel;
+                toolBarManager.logHelper.addLog("Tab "+tabPane.getTabs().get(0).getText() + " selected.");
             }
             else  {
                 httpHandler.easel = null;
@@ -59,6 +60,7 @@ public class TabManager {
         tab.setUserData(easel);
         tabPane.getTabs().add(tab);
         tabPane.getSelectionModel().select(tab);
+        toolBarManager.logHelper.addLog("New Tab, " + title + ", created.");
         return easel;
     }
 }

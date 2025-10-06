@@ -12,9 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 
 
 public class ImageApp extends Application {
@@ -22,7 +20,7 @@ public class ImageApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
-        LogHelper logHelper = new LogHelper();
+        NotifyClass notify =  new NotifyClass();
 
 
         ToolBarManager toolBarHelper = new ToolBarManager();
@@ -53,14 +51,7 @@ public class ImageApp extends Application {
                         menuManager.counter[0] = 300;
                     }//Saves Image and resets counter
                     else if (menuManager.counter[0] == 120) {
-                        try {
-                            File file = new File("C:\\Users\\Ethan\\Pictures\\Cyberpunk 2077\\photomode_18082025_104631.png");
-                            final TrayIcon trayIcon = new TrayIcon(ImageIO.read(file));
-                            trayIcon.displayMessage("Autosave in 2 minutes","The canvas will autosave in 2 minutes",TrayIcon.MessageType.INFO);
-                        } catch (Exception ex) {
-                            System.out.println("Cant believe you thought that would work");
-                        }
-
+                        notify.displayNotification("Autosave Warning","Autosave will happen in 2 minutes.");
                     }
                 })
 
@@ -70,8 +61,9 @@ public class ImageApp extends Application {
         showTimerButton.selectedProperty().setValue(true);//Have show timer button be selected by default
         showTimerButton.selectedProperty().addListener((obs, oldVal, newVal) -> {
             timerLabel.setVisible(newVal);
-            if (showTimerButton.isVisible()) {logHelper.addLog("Timer was turned on");}
-            else logHelper.addLog("Timer was turned off");
+            if (timerLabel.isVisible()) {toolBarHelper.logHelper.addLog("Timer was turned on");}
+            else toolBarHelper.logHelper.addLog("Timer was turned off");
+
         });
         ToolBar timerBar = new ToolBar(timerLabel, showTimerButton);
         autoSave.setCycleCount(Timeline.INDEFINITE);

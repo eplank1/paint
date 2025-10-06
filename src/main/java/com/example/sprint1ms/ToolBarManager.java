@@ -21,6 +21,7 @@ public class ToolBarManager {
     protected boolean dashed;
     protected int sides;
     protected TextField text;
+    protected LogHelper logHelper;
 
     protected enum Tool {
         PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY, STAR
@@ -29,6 +30,7 @@ public class ToolBarManager {
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
      */
     public ToolBarManager() {
+        logHelper = new LogHelper();
         currentColor = Color.BLACK;
         lineWidth = 2.0;
         colorPicker = new ColorPicker(Color.BLACK);

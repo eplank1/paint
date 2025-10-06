@@ -111,6 +111,7 @@ public class MenuManager {
             easel.isDirty = false;
             Easel.originalFormat = PaintUtility.getFileExtension(file);
         }
+        toolBarManager.logHelper.addLog("Image file, " + file + " opened");
     }
     /*
      * The saveImage function is used to select (or create) a file to save to
@@ -157,6 +158,7 @@ public class MenuManager {
             }
         }
         counter[0] = 300;
+        toolBarManager.logHelper.addLog("Saving image to " + easel.currentFile);
     }
     /*
      * The confirmUnsaved function is used to get confirmation from
@@ -177,11 +179,13 @@ public class MenuManager {
         Easel easel = tabManager.currentEasel;
         easel.redoStack.push(easel.canvas.snapshot(null,null));
         easel.gc.drawImage(easel.undoStack.pop(), 0, 0);
+        toolBarManager.logHelper.addLog("Undoing changes.");
     }
     protected void redoChanges(){
         Easel easel = tabManager.currentEasel;
         easel.undoStack.push(easel.canvas.snapshot(null,null));
         easel.gc.drawImage(easel.redoStack.pop(), 0, 0);
+        toolBarManager.logHelper.addLog("Redoing changes.");
     }
     protected boolean confirmConvert(Easel easel){
         Boolean isConfirmed = false;

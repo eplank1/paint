@@ -178,12 +178,18 @@ public class MenuManager {
     protected void undoChanges(){
         Easel easel = tabManager.currentEasel;
         easel.redoStack.push(easel.canvas.snapshot(null,null));
+        //handling for draw -> rotate -> undo
+        easel.canvas.setHeight(easel.undoStack.peek().getHeight());
+        easel.canvas.setWidth(easel.undoStack.peek().getWidth());
         easel.gc.drawImage(easel.undoStack.pop(), 0, 0);
         toolBarManager.logHelper.addLog("Undoing changes.");
     }
     protected void redoChanges(){
         Easel easel = tabManager.currentEasel;
         easel.undoStack.push(easel.canvas.snapshot(null,null));
+        //handling for draw -> rotate -> undo
+        easel.canvas.setHeight(easel.redoStack.peek().getHeight());
+        easel.canvas.setWidth(easel.redoStack.peek().getWidth());
         easel.gc.drawImage(easel.redoStack.pop(), 0, 0);
         toolBarManager.logHelper.addLog("Redoing changes.");
     }

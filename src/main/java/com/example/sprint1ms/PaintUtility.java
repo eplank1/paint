@@ -21,13 +21,7 @@ public class PaintUtility {
         }
         return "png";//by default return png format
     }
-    /*
-     * Creates a ToggleButton using a button name, tool from the toolbar, toggle-group and a boolean.
-     * @param text      The text string applied to the button.
-     * @param tool      The tool that the button affects/activates.
-     * @param group     The toggle group that the button must be applied to
-     * @param selected  Boolean to distinguish whether the button is currently selected or not.
-     */
+
     static public ToggleButton makeToolButton(String text, ToolBarManager.Tool tool, ToggleGroup group, boolean selected, ToolBarManager toolBarManager, String filename) {
         ToggleButton btn = new ToggleButton(text);
         javafx.scene.image.Image img = new Image( "C:\\Users\\Ethan\\cs250\\sprint1ms\\src\\main\\resources\\"+ filename);

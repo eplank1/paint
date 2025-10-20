@@ -1,8 +1,6 @@
 package com.example.sprint1ms;
 
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
@@ -24,7 +22,7 @@ public class ToolBarManager {
     protected LogHelper logHelper;
 
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, HEX, ERASER, EYEDROPPER, RTRIANGLE, OCT, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY, STAR
+        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, ERASER, EYEDROPPER, RTRIANGLE, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY, STAR
     }
     /*
     * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
@@ -80,10 +78,6 @@ public class ToolBarManager {
         triangleBtn.setTooltip(new Tooltip("Triangle  tool that allows user to draw triangles on the canvas"));
         ToggleButton rtriangleBtn = PaintUtility.makeToolButton("R-Tri", Tool.RTRIANGLE, group, false, this, "right-triangle.png");
         rtriangleBtn.setTooltip(new Tooltip("Right Triangle tool that allows user to draw right triangles on the canvas"));
-        /*ToggleButton hexBtn = PaintUtility.makeToolButton("Hex", Tool.HEX, group, false, this);
-        hexBtn.setTooltip(new Tooltip("Hexagon tool that allows user to draw hexagons on the canvas"));
-        ToggleButton octBtn = PaintUtility.makeToolButton("Oct", Tool.OCT, group, false, this);
-        octBtn.setTooltip(new Tooltip("Octagon tool that allows user to draw octagons on the canvas"));*///Polygon tool makes hexagons and octagons
         ToggleButton eraserBtn = PaintUtility.makeToolButton("Eraser", Tool.ERASER, group, false, this, "eraser.png");
         eraserBtn.setTooltip(new Tooltip("Eraser tool that allows user to freely erase the canvas or images if they are loaded"));
         ToggleButton dropperBtn = PaintUtility.makeToolButton("Dropper", Tool.EYEDROPPER, group, false, this, "dropper.png");

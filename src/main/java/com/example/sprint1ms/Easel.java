@@ -11,9 +11,7 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.util.Stack;
 
-/*
-* The Easel class is used to hold all drawing related functions and properties such as the canvas and graphics context.
- */
+
 public class Easel {
     protected Canvas canvas;
     protected GraphicsContext gc;
@@ -28,12 +26,7 @@ public class Easel {
     protected static String originalFormat;
     protected static String convertFormat;
     protected ToolBarManager toolBarManager;
-    /*
-    * The default constructor for the easel. Creates the canvas and mouse handler events
-    *
-    * @param toolbar  A ToolBarManager object that is used to check which tool is being used and to
-    *                 apply drawing settings to shapes and lines.
-     */
+
     public Easel(ToolBarManager toolbar) {
         // Drawing with mouse
         toolBarManager = toolbar;
@@ -87,9 +80,7 @@ public class Easel {
                     case CIRCLE -> drawCircle(toolbar, lastX, lastY, e.getX(), e.getY());
                     case ELLIPSE -> drawEllipse(toolbar, lastX, lastY, e.getX(), e.getY());
                     case TRIANGLE -> drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
-                    case HEX -> drawHex(toolbar, lastX, lastY, e.getX(), e.getY());
                     case RTRIANGLE -> drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
-                    case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                     case POLYGON -> drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
                     case STAR -> drawStar(toolbar, lastX, lastY, e.getX(), e.getY(), toolbar.sides);
                     case MOVE -> gc.drawImage(selectImg, e.getX(), e.getY());
@@ -123,12 +114,10 @@ public class Easel {
                     drawTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                     toolBarManager.logHelper.addLog("Triangle drawn on canvas.");
                 }
-                case HEX -> drawHex(toolbar, lastX, lastY, e.getX(), e.getY());
                 case RTRIANGLE -> {
                     drawRTriangle(toolbar, lastX, lastY, e.getX(), e.getY());
                     toolBarManager.logHelper.addLog("RTriangle drawn on canvas.");
                 }
-                case OCT -> drawOct(toolbar, lastX, lastY, e.getX(), e.getY());
                 case POLYGON -> {
                     drawPolygon(toolbar, lastX,lastY, e.getX(), e.getY(), toolbar.sides);
                     toolBarManager.logHelper.addLog("Polygon drawn on canvas.");
@@ -150,11 +139,7 @@ public class Easel {
             }
         });
     }
-    /*
-    *Applies drawing settings that are set in the toolbar, such as the pen's color, width, and whether the line is dashed.
-    *
-    * @param toolbar  ToolBarManager object that contains necessary data for modifying shapes / drawings.
-     */
+
     private void applyStrokeStyle(ToolBarManager toolBar) {
         gc.setLineWidth(toolBar.lineWidth);
         gc.setStroke(toolBar.currentColor);
@@ -186,34 +171,6 @@ public class Easel {
     private void drawTriangle(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
         applyStrokeStyle(toolbar);
         gc.strokePolygon(new double[]{x1,x2,(x1+x2)/2},new double[]{y2,y2,y1},3);
-        isDirty = true;
-    }
-    private void drawHex(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
-        applyStrokeStyle(toolbar);
-        double centerX = (x1+x2)/2;
-        double centerY = (y1+y2)/2;
-        double r = Math.max(Math.abs(x2-x1), Math.abs(y2-y1))/2;
-        double[] xpoints = new double[6];
-        double[] ypoints = new double[6];
-        for (int i=0; i<6; i++) {
-            xpoints[i] = centerX+r * Math.cos(Math.PI /3*i);
-            ypoints[i] = centerY+r * Math.sin(Math.PI/3*i);
-        }
-        gc.strokePolygon(xpoints,ypoints,6);
-        isDirty = true;
-    }
-    private void drawOct(ToolBarManager toolbar, double x1, double y1, double x2, double y2) {
-        applyStrokeStyle(toolbar);
-        double centerX = (x1+x2)/2;
-        double centerY = (y1+y2)/2;
-        double r = Math.max(Math.abs(x2-x1), Math.abs(y2-y1))/2;
-        double[] xpoints = new double[8];
-        double[] ypoints = new double[8];
-        for (int i=0; i<8; i++) {
-            xpoints[i] = centerX+r * Math.cos(Math.PI /4*i);
-            ypoints[i] = centerY+r * Math.sin(Math.PI/4*i);
-        }
-        gc.strokePolygon(xpoints,ypoints,8);
         isDirty = true;
     }
     private void drawPolygon(ToolBarManager toolbar, double x1, double y1, double x2, double y2, int sides) {

@@ -12,9 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-/*
-* The MenuManager class is used to create the menuBar that will give the user file options
- */
+
 public class MenuManager {
     protected MenuBar menuBar;
     protected TabManager tabManager;
@@ -22,15 +20,6 @@ public class MenuManager {
     protected ToolBarManager toolBarManager;
     final int[] counter = {300};
 
-    /*
-    * The default constructor for the MenuManager, creates the menubar and
-    * adds event handlers to the buttons on the menu bar. A TabManager, Stage,
-    * and ToolBarManager must be passed to add functionality to buttons.
-    *
-    * @param tabs          The TabManager is passed to MenuManager's property by reference
-    * @param primaryStage  The Stage is passed to MenuManager's property by reference
-    * @param toolBarHelper The ToolBarManager is passed to MenuManager's property by reference
-     */
     public MenuManager(TabManager tabs, Stage primaryStage, ToolBarManager toolBarHelper) {
         // File Menu
         tabManager = tabs;
@@ -89,11 +78,6 @@ public class MenuManager {
         redoItem.setOnAction(e -> {if (!tabManager.currentEasel.redoStack.isEmpty()) redoChanges();});
     }
 
-    /*
-     * The openImage function is used to show a file selection dialogue to stage and to
-     * draw the image from said file onto the easel's canvas on a new tab named after the file.
-     *
-     */
     public void openImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
@@ -113,13 +97,7 @@ public class MenuManager {
         }
         toolBarManager.logHelper.addLog("Image file, " + file + " opened");
     }
-    /*
-     * The saveImage function is used to select (or create) a file to save to
-     * and write the canvas to said file.
-     *
-     * @param saveAs The boolean is used to determine whether to save to a preselected
-     *               location or to open a saveAs dialogue window.
-     */
+
     protected void saveImage(boolean saveAs) {
         Easel easel = tabManager.currentEasel;
         if (!easel.isDirty) return;
@@ -160,12 +138,7 @@ public class MenuManager {
         counter[0] = 300;
         toolBarManager.logHelper.addLog("Saving image to " + easel.currentFile);
     }
-    /*
-     * The confirmUnsaved function is used to get confirmation from
-     * the user if they want to close the program with unsaved changes.
-     *
-     * @param easel Used to retrieve isDirty flag from the easel.
-     */
+
     protected boolean confirmUnsaved(Easel easel) {
         if (!easel.isDirty) return true;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,

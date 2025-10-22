@@ -4,28 +4,132 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+/**
+ * The type Tool bar manager.
+ */
 /*
 * The ToolBarManager class is used to contain all the toolbar functions and variables in once place.
 * Properties within the ToolBarManager class are passed to the easel for drawing.
  */
 public class ToolBarManager {
 
+    /**
+     * The Current color.
+     */
     protected Color currentColor;
+    /**
+     * The Line width.
+     */
     protected double lineWidth;
+    /**
+     * The Color picker.
+     */
     protected ColorPicker colorPicker;
+    /**
+     * The Line width slider.
+     */
     protected Slider lineWidthSlider;
+    /**
+     * The Tool bar.
+     */
     protected HBox toolBar;
+    /**
+     * The Current tool.
+     */
     protected Tool currentTool;
+    /**
+     * The Dashed.
+     */
     protected boolean dashed;
+    /**
+     * The Sides.
+     */
     protected int sides;
+    /**
+     * The Text.
+     */
     protected TextField text;
+    /**
+     * The Log helper.
+     */
     protected LogHelper logHelper;
 
+    /**
+     * The enum Tool.
+     */
     protected enum Tool {
-        PENCIL, LINE, SQUARE, RECT, CIRCLE, ELLIPSE, TRIANGLE, ERASER, EYEDROPPER, RTRIANGLE, POLYGON, TEXT, SELECT, MOVE, PASTE, COPY, STAR
+        /**
+         * Pencil tool.
+         */
+        PENCIL,
+        /**
+         * Line tool.
+         */
+        LINE,
+        /**
+         * Square tool.
+         */
+        SQUARE,
+        /**
+         * Rect tool.
+         */
+        RECT,
+        /**
+         * Circle tool.
+         */
+        CIRCLE,
+        /**
+         * Ellipse tool.
+         */
+        ELLIPSE,
+        /**
+         * Triangle tool.
+         */
+        TRIANGLE,
+        /**
+         * Eraser tool.
+         */
+        ERASER,
+        /**
+         * Eyedropper tool.
+         */
+        EYEDROPPER,
+        /**
+         * Rtriangle tool.
+         */
+        RTRIANGLE,
+        /**
+         * Polygon tool.
+         */
+        POLYGON,
+        /**
+         * Text tool.
+         */
+        TEXT,
+        /**
+         * Select tool.
+         */
+        SELECT,
+        /**
+         * Move tool.
+         */
+        MOVE,
+        /**
+         * Paste tool.
+         */
+        PASTE,
+        /**
+         * Copy tool.
+         */
+        COPY,
+        /**
+         * Star tool.
+         */
+        STAR
     }
-    /*
-    * Default Constructor for ToolBarManager, used to initialize the toolbar with drawing buttons and tools,
+
+    /**
+     * Instantiates a new Tool bar manager.
      */
     public ToolBarManager() {
         logHelper = new LogHelper();
@@ -53,10 +157,6 @@ public class ToolBarManager {
         toolBar = new HBox(10, new Label("Line Width:"), lineWidthSlider, colorPicker, buildToolBar(), dashedBox, new Label ("Sides/Points:"), polygonSides,
         new Label ("Text:"), text);//Adding tools to toolbar
     }
-    /*
-    * Creates a Toolbar with drawing tool buttons attached.
-    * @return  the Toolbar created by the buildToolBar() function.
-     */
     private ToolBar buildToolBar() {
         ToggleGroup group = new ToggleGroup();//Adding buttons to a toggle group makes one button activatable at a time
 

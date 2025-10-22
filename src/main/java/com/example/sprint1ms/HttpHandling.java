@@ -10,9 +10,20 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * The type Http handling.
+ */
 public class HttpHandling implements HttpHandler {
+    /**
+     * The Easel.
+     */
     protected Easel easel;
 
+    /**
+     * Instantiates a new Http handling.
+     *
+     * @param easel the easel
+     */
     public HttpHandling(Easel easel) {
         this.easel = easel;
     }

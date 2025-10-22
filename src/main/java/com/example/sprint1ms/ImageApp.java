@@ -15,6 +15,9 @@ import javafx.util.Duration;
 import java.awt.*;
 
 
+/**
+ * The type Image app.
+ */
 public class ImageApp extends Application {
 
     @Override

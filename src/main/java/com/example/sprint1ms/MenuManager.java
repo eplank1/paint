@@ -13,13 +13,38 @@ import java.io.File;
 import java.io.IOException;
 
 
+/**
+ * The type Menu manager.
+ */
 public class MenuManager {
+    /**
+     * The Menu bar.
+     */
     protected MenuBar menuBar;
+    /**
+     * The Tab manager.
+     */
     protected TabManager tabManager;
+    /**
+     * The Stage.
+     */
     protected Stage stage;
+    /**
+     * The Tool bar manager.
+     */
     protected ToolBarManager toolBarManager;
+    /**
+     * The Counter.
+     */
     final int[] counter = {300};
 
+    /**
+     * Instantiates a new Menu manager.
+     *
+     * @param tabs          the tabs
+     * @param primaryStage  the primary stage
+     * @param toolBarHelper the tool bar helper
+     */
     public MenuManager(TabManager tabs, Stage primaryStage, ToolBarManager toolBarHelper) {
         // File Menu
         tabManager = tabs;
@@ -78,6 +103,9 @@ public class MenuManager {
         redoItem.setOnAction(e -> {if (!tabManager.currentEasel.redoStack.isEmpty()) redoChanges();});
     }
 
+    /**
+     * Open image.
+     */
     public void openImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
@@ -98,6 +126,11 @@ public class MenuManager {
         toolBarManager.logHelper.addLog("Image file, " + file + " opened");
     }
 
+    /**
+     * Save image.
+     *
+     * @param saveAs the save as flag
+     */
     protected void saveImage(boolean saveAs) {
         Easel easel = tabManager.currentEasel;
         if (!easel.isDirty) return;
@@ -139,6 +172,12 @@ public class MenuManager {
         toolBarManager.logHelper.addLog("Saving image to " + easel.currentFile);
     }
 
+    /**
+     * Confirm unsaved boolean.
+     *
+     * @param easel the easel
+     * @return the boolean
+     */
     protected boolean confirmUnsaved(Easel easel) {
         if (!easel.isDirty) return true;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
@@ -148,6 +187,10 @@ public class MenuManager {
         alert.showAndWait();
         return alert.getResult() == ButtonType.YES;
     }
+
+    /**
+     * Undo changes.
+     */
     protected void undoChanges(){
         Easel easel = tabManager.currentEasel;
         easel.redoStack.push(easel.canvas.snapshot(null,null));
@@ -157,6 +200,10 @@ public class MenuManager {
         easel.gc.drawImage(easel.undoStack.pop(), 0, 0);
         toolBarManager.logHelper.addLog("Undoing changes.");
     }
+
+    /**
+     * Redo changes.
+     */
     protected void redoChanges(){
         Easel easel = tabManager.currentEasel;
         easel.undoStack.push(easel.canvas.snapshot(null,null));
@@ -166,6 +213,13 @@ public class MenuManager {
         easel.gc.drawImage(easel.redoStack.pop(), 0, 0);
         toolBarManager.logHelper.addLog("Redoing changes.");
     }
+
+    /**
+     * Confirm convert boolean.
+     *
+     * @param easel the easel
+     * @return the boolean
+     */
     protected boolean confirmConvert(Easel easel){
         Boolean isConfirmed = false;
         if ("png".equalsIgnoreCase(easel.originalFormat)) return true;

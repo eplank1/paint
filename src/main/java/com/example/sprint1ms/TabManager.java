@@ -10,13 +10,36 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 
+/**
+ * The type Tab manager.
+ */
 public class TabManager {
+    /**
+     * The Tab pane.
+     */
     protected TabPane tabPane;
+    /**
+     * The Current easel.
+     */
     protected Easel currentEasel;
+    /**
+     * The Tool bar manager.
+     */
     protected ToolBarManager toolBarManager;
+    /**
+     * The Server.
+     */
     protected HttpServer server;
+    /**
+     * The Http handler.
+     */
     protected HttpHandling httpHandler;
 
+    /**
+     * Instantiates a new Tab manager.
+     *
+     * @param toolbar the toolbar
+     */
     public TabManager(ToolBarManager toolbar) {
         tabPane = new TabPane();
         toolBarManager = toolbar;
@@ -39,6 +62,12 @@ public class TabManager {
 
     }
 
+    /**
+     * Add new tab easel.
+     *
+     * @param title the title
+     * @return the easel
+     */
     protected Easel addNewTab(String title) {
         Easel easel = new Easel(toolBarManager);
         // Scrollable image + canvas

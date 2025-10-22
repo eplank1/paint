@@ -12,21 +12,71 @@ import java.io.File;
 import java.util.Stack;
 
 
+/**
+ * The type Easel.
+ */
 public class Easel {
+    /**
+     * The Canvas.
+     */
     protected Canvas canvas;
+    /**
+     * The Gc.
+     */
     protected GraphicsContext gc;
-    protected double lastX, lastY;
+    /**
+     * The Last x.
+     */
+    protected double lastX, /**
+     * The Last y.
+     */
+    lastY;
+    /**
+     * The Is dirty.
+     */
     protected boolean isDirty;
+    /**
+     * The Current file.
+     */
     protected File currentFile = null;
+    /**
+     * The Canvas snapshot.
+     */
     protected WritableImage canvasSnapshot;//used for live drawing functionality
+    /**
+     * The Undo stack.
+     */
     protected Stack<WritableImage> undoStack;//Undo stack used for holding snapshots of canvas
+    /**
+     * The Redo stack.
+     */
     protected Stack<WritableImage> redoStack;
+    /**
+     * The Select img.
+     */
     protected Image selectImg;
+    /**
+     * The Copy img.
+     */
     protected Image copyImg;
+    /**
+     * The constant originalFormat.
+     */
     protected static String originalFormat;
+    /**
+     * The constant convertFormat.
+     */
     protected static String convertFormat;
+    /**
+     * The Tool bar manager.
+     */
     protected ToolBarManager toolBarManager;
 
+    /**
+     * Instantiates a new Easel.
+     *
+     * @param toolbar the toolbar
+     */
     public Easel(ToolBarManager toolbar) {
         // Drawing with mouse
         toolBarManager = toolbar;
@@ -252,6 +302,10 @@ public class Easel {
 
         return subImage;
     }
+
+    /**
+     * Rotate.
+     */
     protected void rotate() {
         WritableImage snapshot = canvas.snapshot(null, null);
 
@@ -279,11 +333,19 @@ public class Easel {
         gc.drawImage(rotatedSnapshot, 0, 0);
         toolBarManager.logHelper.addLog("Canvas rotated 90 degrees");
     }
+
+    /**
+     * Vertical flip.
+     */
     protected void verticalFlip(){
         WritableImage temp = canvas.snapshot(null, null);
         gc.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), 0, temp.getHeight(), temp.getWidth(), -temp.getHeight());
         toolBarManager.logHelper.addLog("Canvas Vertically Flipped");
     }
+
+    /**
+     * Horizontal flip.
+     */
     protected void horizontalFlip(){
         WritableImage temp = canvas.snapshot(null, null);
         gc.drawImage(temp, 0, 0, temp.getWidth(), temp.getHeight(), temp.getWidth(), 0, -temp.getWidth(), temp.getHeight());

@@ -12,7 +12,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+/**
+ * The type Paint utility.
+ */
 public class PaintUtility {
+    /**
+     * Get file extension string.
+     *
+     * @param file the file
+     * @return the string
+     */
     public static String getFileExtension(File file){
         String fileName = file.getName();
         int dotIndex = fileName.lastIndexOf('.');
@@ -22,6 +31,17 @@ public class PaintUtility {
         return "png";//by default return png format
     }
 
+    /**
+     * Make tool button toggle button.
+     *
+     * @param text           the text
+     * @param tool           the tool
+     * @param group          the group
+     * @param selected       the selected
+     * @param toolBarManager the tool bar manager
+     * @param filename       the filename
+     * @return the toggle button
+     */
     static public ToggleButton makeToolButton(String text, ToolBarManager.Tool tool, ToggleGroup group, boolean selected, ToolBarManager toolBarManager, String filename) {
         ToggleButton btn = new ToggleButton(text);
         javafx.scene.image.Image img = new Image( "C:\\Users\\Ethan\\cs250\\sprint1ms\\src\\main\\resources\\"+ filename);
@@ -33,6 +53,13 @@ public class PaintUtility {
         btn.setOnAction(e -> toolBarManager.currentTool = tool);
         return btn;
     }
+
+    /**
+     * Get buffered image buffered image.
+     *
+     * @param canvas the canvas
+     * @return the buffered image
+     */
     static public BufferedImage GetBufferedImage(Canvas canvas) {
         WritableImage writableImage = canvas.snapshot(null, null);
         return SwingFXUtils.fromFXImage(writableImage, null);

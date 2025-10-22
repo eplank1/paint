@@ -2,10 +2,26 @@ package com.example.sprint1ms;
 
 import java.awt.*;
 
+/**
+ * The type Notify class.
+ */
 public class NotifyClass {
+    /**
+     * The Tray.
+     */
     protected SystemTray tray;
+    /**
+     * The Image.
+     */
     protected Image image;
+    /**
+     * The Tray icon.
+     */
     protected TrayIcon trayIcon;
+
+    /**
+     * Instantiates a new Notify class.
+     */
     public NotifyClass() {
         if (!SystemTray.isSupported()) {
             System.out.println("System tray is not supported.");
@@ -23,6 +39,13 @@ public class NotifyClass {
         trayIcon.setToolTip("Java AWT TrayIcon");
 
     }
+
+    /**
+     * Display notification.
+     *
+     * @param title   the title
+     * @param message the message
+     */
     protected void displayNotification(String title, String message){
         try {
             tray.add(trayIcon);
